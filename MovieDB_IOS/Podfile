@@ -8,5 +8,6 @@ target 'MovieDB_IOS' do
   # Pods for MovieDB_IOS
   pod 'ObjectMapper', '~> 3.3'
   pod 'SwiftLint'
+  pod 'RxSwift',    '~> 4.0'
 
 end
