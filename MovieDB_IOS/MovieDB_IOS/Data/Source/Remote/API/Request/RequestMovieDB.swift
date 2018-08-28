@@ -10,30 +10,25 @@ import Foundation
 
 class RequestMovieDB {
     static let shared = RequestMovieDB()
-    private let apiKey = "a13cd0049bdd3d3275de11627248af15"
-    private let baseURL = "https://api.themoviedb.org/3/"
 
     func buildRequest(field: FieldMovieDB, queryID: Int?, parameters: [String: Any]?) -> URLRequest? {
         let path: String
         let url: String
         var queryItems = [URLQueryItem]()
-        let baseParams = ["api_key": self.apiKey, "language": "en-US"]
+        let baseParams = ["api_key": API.apiKey, "language": "en-US"]
         addingQueryItems(to: &queryItems, parameters: baseParams)
         if let parameters = parameters {
             addingQueryItems(to: &queryItems, parameters: parameters)
         }
         if let id = queryID {
             path = insertID(toField: field.rawValue, identifier: id)
-            url = baseURL + path
+            url = API.baseAPIURL + path
         } else {
-            url = baseURL + field.rawValue
+            url = API.baseAPIURL + field.rawValue
         }
         var components = URLComponents(string: url)
         components?.queryItems = queryItems
-        guard let urlComponents = components?.url
-        else {
-            return nil
-        }
+        guard let urlComponents = components?.url else { return nil }
         return URLRequest(url: urlComponents)
     }
 
@@ -47,7 +42,7 @@ class RequestMovieDB {
             if indexToInsert.encodedOffset == editPath.count {
                 editPath.append(String(identifier))
             } else {
-                let idString = "\(identifier)/"
+                let idString = "/\(identifier)"
                 editPath.insert(contentsOf: idString, at: index)
             }
             return editPath
