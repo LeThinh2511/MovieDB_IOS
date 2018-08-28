@@ -66,7 +66,7 @@ class RemoteRepository {
 
     // Get all cast and crew from a movie
     func getMovieCredits(withId movieID: Int) -> Observable<([Person], [Person])> {
-        let request = RequestMovieDB.shared.buildRequest(field: .movieCredits, queryID: nil, parameters: nil)
+        let request = RequestMovieDB.shared.buildRequest(field: .movieCredits, queryID: movieID, parameters: nil)
         return service.request(request: request)
             .map({ (response: MovieCreditsResponse) -> ([Person], [Person]) in
                 return (response.cast, response.crew)

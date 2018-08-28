@@ -29,8 +29,7 @@ class Service {
             guard let requestMovieDB = request
             else {
                     observer.onError(RequestMovieDBError.buildRequestError)
-                observer.onCompleted()
-                return Disposables.create()
+                    return Disposables.create()
             }
             self.session.dataTask(with: requestMovieDB, completionHandler: { (data, response, _) in
                 if let response = response as? HTTPURLResponse {
@@ -38,19 +37,18 @@ class Service {
                         guard let data = data
                         else {
                             observer.onError(RequestMovieDBError.buildRequestError)
-                            observer.onCompleted()
                             return
                         }
                         let json = String(data: data, encoding: .utf8)
                         guard let jsonString = json, let object = T(JSONString: jsonString)
                         else {
                             observer.onError(RequestMovieDBError.buildRequestError)
-                            observer.onCompleted()
                             return
                         }
                         observer.onNext(object)
                         observer.onCompleted()
                     }
+                    observer.onError(RequestMovieDBError.buildRequestError)
                 }
             }).resume()
             return Disposables.create()

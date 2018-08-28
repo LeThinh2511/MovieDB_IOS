@@ -10,35 +10,39 @@ import Foundation
 import ObjectMapper
 
 class Movie: Mappable {
-    var voteCount: Int!
-    var voteAverage: NSNumber!
-    var title: String!
-    var status: Status!
-    var revenue: Int!
-    var releaseDate: String!
-    var popularity: NSNumber!
+    var voteCount: Int?
+    var voteAverage: Double?
+    var title: String?
+    var status: Status?
+    var revenue: Int?
+    var releaseDate: String?
+    var popularity: Double?
     var overview: String?
     var movieID: Int!
-    var genres: [Genre]!
-    var budget: Int!
+    var genres: [Genre]?
+    var budget: Int?
     var backdropPath: String?
+    var posterPath: String?
 
     required init?(map: Map) {
     }
 
+    init() {
+    }
+
     func mapping(map: Map) {
-        voteCount <- map["vote_count"]
-        voteAverage <- map["vote_average"]
-        title <- map["title"]
-        status <- map["status"]
-        revenue <- map["revenue"]
-        releaseDate <- map["release_date"]
-        popularity <- map["popularity"]
-        overview <- map["overview"]
-        movieID <- map["id"]
-        budget <- map["budget"]
-        backdropPath <- map["backdrop_path"]
-        genres = map.JSON["genres"] as? [Genre]
+        voteCount <- map[MovieModel.voteCountMovie]
+        voteAverage <- map[MovieModel.voteAverageMovie]
+        title <- map[MovieModel.titleMovie]
+        status <- map[MovieModel.statusMovie]
+        revenue <- map[MovieModel.revenueMovie]
+        releaseDate <- map[MovieModel.revenueMovie]
+        popularity <- map[MovieModel.popularityMovie]
+        overview <- map[MovieModel.overviewMovie]
+        movieID <- map[MovieModel.movieIDMovie]
+        budget <- map[MovieModel.budgetMovie]
+        backdropPath <- map[MovieModel.backdropPathMovie]
+        posterPath <- map[MovieModel.posterPathMovie]
     }
 }
 
@@ -51,7 +55,7 @@ enum Status {
     case canceled
 }
 
-enum Genre: Int, Mappable {
+enum Genre: Int, Mappable, CaseIterable {
 
     case action = 28
     case adventure = 12
@@ -74,8 +78,8 @@ enum Genre: Int, Mappable {
     case western = 37
 
     init?(map: Map) {
-        guard let id = map.JSON["id"] as? Int else {return nil}
-        self = Genre(rawValue: id)!
+        guard let id = map.JSON[MovieModel.movieIDMovie] as? Int else {return nil}
+        self.init(rawValue: id)
     }
 
     mutating func mapping(map: Map) {

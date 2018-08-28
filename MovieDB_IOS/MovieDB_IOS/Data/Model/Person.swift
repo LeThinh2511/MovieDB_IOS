@@ -15,30 +15,32 @@ enum Gender: Int {
 }
 
 class Person: Mappable {
-    var name: String!
+    var name: String?
     var personID: Int!
     var birthday: String?
-    var knownForDepartment: String!
+    var knownForDepartment: String?
     var deathday: String?
-    var gender: Gender!
-    var biography: String!
-    var popularity: NSNumber!
+    var gender: Gender?
+    var biography: String?
+    var popularity: Double?
     var placeOfBirth: String?
     var profilePath: String?
+    var job: String?
 
     required init?(map: Map) {
     }
 
     func mapping(map: Map) {
-        name <- map["name"]
-        personID <- map["id"]
-        birthday <- map["birthday"]
-        knownForDepartment <- map["knownForDepartment"]
-        deathday <- map["deathday"]
-        gender <- map["gender"]
-        biography <- map["biography"]
-        popularity <- map["popularity"]
-        placeOfBirth <- map["placeOfBirth"]
-        profilePath <- map["profilePath"]
+        name <- map[PersonModel.namePerson]
+        personID <- map[PersonModel.personIDPerson]
+        birthday <- map[PersonModel.birthdayPerson]
+        knownForDepartment <- map[PersonModel.knownForDepartmentPerson]
+        deathday <- map[PersonModel.deathdayPerson]
+        gender <- map[PersonModel.genderPerson]
+        biography <- map[PersonModel.biographyPerson]
+        popularity <- map[PersonModel.popularityPerson]
+        placeOfBirth <- map[PersonModel.placeOfBirthPerson]
+        profilePath <- map[PersonModel.profilePathPerson]
+        job <- map[PersonModel.jobPerson]
     }
 }
