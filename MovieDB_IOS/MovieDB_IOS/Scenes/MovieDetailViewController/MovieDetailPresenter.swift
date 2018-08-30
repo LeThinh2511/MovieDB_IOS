@@ -11,9 +11,9 @@ import RxSwift
 
 class MovieDetailPresenter: MovieDetailPresenterProtocol {
 
-   private weak var view: MovieDetailView!
-   private var repository: RemoteRepository!
-   private let disposeBag = DisposeBag()
+    private weak var view: MovieDetailView!
+    private var repository: RemoteRepository!
+    private let disposeBag = DisposeBag()
 
     init(view: MovieDetailView, repository: RemoteRepository) {
         self.repository = repository
@@ -29,10 +29,18 @@ class MovieDetailPresenter: MovieDetailPresenterProtocol {
                 let producer = crew.filter({ (person) -> Bool in
                    return person.job == job
                 }).first
-                    self?.view.getCreditsSuccess(cast: cast, producer: producer)
+                self?.view.getCreditsSuccess(cast: cast, producer: producer)
                 }, onError: { [weak self] (_) in
                     self?.view.getCastFailure()
             }, onCompleted: nil, onDisposed: nil)
         .disposed(by: disposeBag)
+    }
+
+    func getPerson(personID: Int) {
+        self.repository.getPerson(withID: personID)
+            .subscribe(onNext: { [weak self] person in
+                self?.view.navigateToPersonDetail(person: person)
+            }, onError: nil, onCompleted: nil)
+            .disposed(by: disposeBag)
     }
 }

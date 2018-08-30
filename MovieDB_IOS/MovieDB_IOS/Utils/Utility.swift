@@ -80,3 +80,13 @@ func constructURLImage(path: String) -> String {
     let url = baseURL + path
     return url
 }
+
+func getCurrentViewController() -> UIViewController? {
+    if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
+        while let presentedViewController = topViewController.presentedViewController {
+            topViewController = presentedViewController
+        }
+        return topViewController
+    }
+    return nil
+}

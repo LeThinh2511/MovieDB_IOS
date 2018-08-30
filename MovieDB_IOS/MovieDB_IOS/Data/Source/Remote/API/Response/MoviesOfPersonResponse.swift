@@ -10,8 +10,8 @@ import Foundation
 import ObjectMapper
 
 class MoviesOfPersonResponse: BaseResponse {
-    var cast: [Movie]!
-    var crew: [Movie]!
+    var cast: [Movie]?
+    var crew: [Movie]?
 
     required init?(map: Map) {
         super.init(map: map)

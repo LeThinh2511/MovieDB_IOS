@@ -15,15 +15,15 @@ extension UIImageView {
         let session = URLSession(configuration: .default)
         session.dataTask(with: url) { (data, _, error) in
             if let error = error {
-                print(error) //TODOs : EDIT LATER
+                print(error) //TODOs : edit later
             } else {
                 if let imageData = data {
                     let image = UIImage(data: imageData)
-                    DispatchQueue.main.sync {
+                    DispatchQueue.main.async {
                         self.image = image
                     }
                 } else {
-                    //TODOs : EDIT LATER
+                    print("could not load image") //TODOs : edit later
                 }
             }
         }.resume()

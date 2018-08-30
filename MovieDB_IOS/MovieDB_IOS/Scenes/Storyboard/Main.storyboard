@@ -26,7 +26,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" alpha="0.84999999999999998" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="categoryCell" rowHeight="197" id="elS-d7-Vbv" customClass="CategoryCell" customModule="MovieDB_IOS" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" alpha="0.84999999999999998" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryCell" rowHeight="197" id="elS-d7-Vbv" customClass="CategoryCell" customModule="MovieDB_IOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="197"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="elS-d7-Vbv" id="Mxb-v1-7ix">
@@ -42,17 +42,7 @@
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
-                                                    <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="movieCell" id="zLt-Gr-ZWE">
-                                                            <rect key="frame" x="0.0" y="2.5" width="115" height="128"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                                <rect key="frame" x="0.0" y="0.0" width="115" height="128"/>
-                                                                <autoresizingMask key="autoresizingMask"/>
-                                                            </view>
-                                                            <color key="backgroundColor" white="0.33333333329999998" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </collectionViewCell>
-                                                    </cells>
+                                                    <cells/>
                                                 </collectionView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Popular" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="you-mB-oQY">
                                                     <rect key="frame" x="8" y="8" width="79" height="29"/>
@@ -87,8 +77,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="kDI-q9-cVW" id="bgP-PE-9AF"/>
-                                    <outlet property="delegate" destination="kDI-q9-cVW" id="4KC-Nv-NZx"/>
+                                    <outlet property="dataSource" destination="kDI-q9-cVW" id="rgP-mv-PPp"/>
+                                    <outlet property="delegate" destination="kDI-q9-cVW" id="wFw-f3-vrh"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tKA-sn-dax">
@@ -148,8 +138,8 @@
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>
-                                            <outlet property="dataSource" destination="kDI-q9-cVW" id="DLq-am-eoR"/>
-                                            <outlet property="delegate" destination="kDI-q9-cVW" id="Zv1-S6-Bc9"/>
+                                            <outlet property="dataSource" destination="kDI-q9-cVW" id="giW-fo-DXn"/>
+                                            <outlet property="delegate" destination="kDI-q9-cVW" id="oXS-0U-x5O"/>
                                         </connections>
                                     </tableView>
                                 </subviews>

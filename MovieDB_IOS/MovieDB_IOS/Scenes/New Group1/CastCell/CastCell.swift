@@ -1,30 +1,27 @@
 //
-//  PersonItem.swift
+//  CastCell.swift
 //  MovieDB_IOS
 //
-//  Created by ThinhLe on 8/20/18.
+//  Created by Loc Le on 8/22/18.
 //  Copyright © 2018 ThinhLe. All rights reserved.
 //
 
 import UIKit
 
-protocol PersonItemDelegate: class {
-    func didTapPersonItem(person: Person)
-}
-
-class PersonItem: UIView {
-
+class CastCell: UICollectionViewCell {
+    @IBOutlet weak var containView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
 
     weak var delegate: PersonItemDelegate?
     var person: Person!
 
-    func configPersonItem(person: Person?) {
+    func configPersonItem(person: Person?, contentView: UIView) {
         guard let personTemp = person else {
             return
         }
         self.person = personTemp
+        self.containView.add(toView: contentView)
         if let urlPath = personTemp.profilePath {
             let url = constructURLImage(path: urlPath)
             imageView.loadImage(from: url)

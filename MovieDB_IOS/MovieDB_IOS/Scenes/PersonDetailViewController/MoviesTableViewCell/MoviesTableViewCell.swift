@@ -1,30 +1,30 @@
 //
-//  CategoryCell.swift
+//  MoviesTableViewCell.swift
 //  MovieDB_IOS
 //
-//  Created by ThinhLe on 8/16/18.
+//  Created by Loc Le on 8/23/18.
 //  Copyright © 2018 ThinhLe. All rights reserved.
 //
 
 import UIKit
 
-class CategoryCell: UITableViewCell {
+class MoviesTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var moviesCollectionView: UICollectionView!
+    @IBOutlet weak var creditsLabel: UILabel!
 
     var movies = [Movie]()
     weak var movieCollectionViewCellDelegate: MovieCollectionViewCellDelegate!
 
     override func awakeFromNib() {
-        moviesCollectionView.delegate = self
-        moviesCollectionView.dataSource = self
+        self.moviesCollectionView.delegate = self
+        self.moviesCollectionView.dataSource = self
         moviesCollectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil),
                                       forCellWithReuseIdentifier: "MovieCollectionViewCell")
     }
 }
 
-extension CategoryCell: UICollectionViewDataSource,
+extension MoviesTableViewCell: UICollectionViewDataSource,
 UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
@@ -35,9 +35,9 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MovieCollectionViewCell",
                                                       for: indexPath) as? MovieCollectionViewCell
         if let cell = cell {
-            let movie = self.movies[indexPath.row]
+            let movie = movies[indexPath.row]
+            cell.configMovieCollectionViewCell(movie: movie, contentView: cell)
             cell.delegate = movieCollectionViewCellDelegate
-            cell.configMovieCollectionViewCell(movie: movie, contentView: cell.contentView)
             return cell
         }
         return UICollectionViewCell()
