@@ -18,7 +18,7 @@
             <rect key="frame" x="0.0" y="0.0" width="370" height="680"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="458-fv-v4j">
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="458-fv-v4j">
                     <rect key="frame" x="0.0" y="20" width="370" height="555"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="458-fv-v4j" secondAttribute="height" multiplier="500:750" id="o10-DQ-5g7"/>
@@ -28,8 +28,8 @@
                     <rect key="frame" x="0.0" y="575" width="370" height="69.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Producer Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y7K-jc-arq">
-                            <rect key="frame" x="0.5" y="26" width="369.5" height="18"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <rect key="frame" x="0.5" y="27" width="369.5" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>

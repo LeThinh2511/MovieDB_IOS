@@ -1,34 +1,36 @@
 //
-//  MovieItem.swift
+//  File.swift
 //  MovieDB_IOS
 //
-//  Created by ThinhLe on 8/16/18.
+//  Created by Loc Le on 8/23/18.
 //  Copyright © 2018 ThinhLe. All rights reserved.
 //
 
 import UIKit
 import Cosmos
 
-protocol MovieItemDelegate: class {
-    func didTapMovieItem(movie: Movie)
+protocol MovieCollectionViewCellDelegate: class {
+    func didTapMovieCollectionViewCell(movie: Movie)
 }
 
-class MovieItem: UIView {
+class MovieCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var numVoteLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var rateView: CosmosView!
 
-    weak var delegate: MovieItemDelegate?
+    weak var delegate: MovieCollectionViewCellDelegate?
     var movie: Movie!
 
     @IBAction func toggleFavorite(_ sender: Any) {
         print("toggle favorite") // TODOs: Edit later
     }
 
-    func configMovieItem(movie: Movie) {
+    func configMovieCollectionViewCell(movie: Movie, contentView: UIView) {
         self.movie = movie
+        self.containerView.add(toView: contentView)
         if let posterPath = movie.posterPath {
             let url = constructURLImage(path: posterPath)
             self.imageView.loadImage(from: url)
@@ -40,12 +42,11 @@ class MovieItem: UIView {
             rateView.rating = rate
             numVoteLabel.text = "(\(voteCount))"
         }
-        let tapGesture = UITapGestureRecognizer(target: self,
-                                                action: #selector(MovieItem.imageViewTapped(tapGestureRecognizer:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(tapGestureRecognizer:)))
         imageView.addGestureRecognizer(tapGesture)
     }
 
-    @objc func imageViewTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        self.delegate?.didTapMovieItem(movie: self.movie)
+    @objc func didTapImageView(tapGestureRecognizer: UITapGestureRecognizer) {
+        self.delegate?.didTapMovieCollectionViewCell(movie: movie)
     }
 }

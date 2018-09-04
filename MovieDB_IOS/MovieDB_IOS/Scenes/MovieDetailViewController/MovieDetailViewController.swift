@@ -9,12 +9,7 @@
 import UIKit
 import Cosmos
 
-class MovieDetailViewController: UIViewController, MovieDetailView {
-
-    var movie: Movie!
-    var cast: [Person]!
-    var producer: Person!
-    var presenter: MovieDetailPresenter!
+class MovieDetailViewController: UIViewController, MovieDetailView, PersonItemDelegate {
 
     // MARK: Connection
     @IBOutlet weak var backdropImageView: UIImageView!
@@ -25,8 +20,13 @@ class MovieDetailViewController: UIViewController, MovieDetailView {
     @IBOutlet weak var producerItem: UIView!
     @IBOutlet weak var castCollectionView: UICollectionView!
 
+    var movie: Movie!
+    private var cast: [Person]!
+    private var producer: Person!
+    private var presenter: MovieDetailPresenter!
+
     @IBAction func swipeHandler(_ sender: UISwipeGestureRecognizer) {
-        self.dismiss(animated: true, completion: nil)
+        self.dismissWithCustomAnimation()
     }
 
     // MARK: life cycle
@@ -34,7 +34,7 @@ class MovieDetailViewController: UIViewController, MovieDetailView {
         super.viewDidLoad()
         presenter = MovieDetailPresenter(view: self, repository: RemoteRepository.shared)
         presenter.getCast(from: self.movie)
-        castCollectionView.register(CastCell.self, forCellWithReuseIdentifier: "CastCell")
+        castCollectionView.register(UINib(nibName: "CastCell", bundle: nil), forCellWithReuseIdentifier: "CastCell")
         configMovieDetailView()
     }
 
@@ -53,6 +53,7 @@ class MovieDetailViewController: UIViewController, MovieDetailView {
         let personItem = Bundle.main.loadNibNamed("PersonItem", owner: nil, options: nil)?.first as? PersonItem
         if let personItem = personItem {
             personItem.configPersonItem(person: producer)
+            personItem.delegate = self
             personItem.add(toView: self.producerItem)
             self.producerItem.heightAnchor.constraint(equalToConstant: Constant.cellSize.height).isActive = true
             self.producerItem.widthAnchor.constraint(equalToConstant: Constant.cellSize.width).isActive = true
@@ -61,7 +62,17 @@ class MovieDetailViewController: UIViewController, MovieDetailView {
     }
 
     func getCastFailure() {
-        print("Nothing to show") //TODOs : EDIT LATER
+        print("Nothing to show") //TODOs : edit later
+    }
+
+    func didTapPersonItem(person: Person) {
+        self.presenter.getPerson(personID: person.personID)
+    }
+
+    func navigateToPersonDetail(person: Person) {
+        let personDetailViewController = PersonDetailViewController(nibName: "PersonDetailViewController", bundle: nil)
+        personDetailViewController.person = person
+        self.present(personDetailViewController, animated: true, completion: nil)
     }
 
     private func configMovieDetailView() {
@@ -82,25 +93,21 @@ class MovieDetailViewController: UIViewController, MovieDetailView {
 }
 
 extension MovieDetailViewController: UICollectionViewDataSource,
-            UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let cast = self.cast {
-            return cast.count
-        }
-        return 0
+        return self.cast?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = castCollectionView.dequeueReusableCell(withReuseIdentifier: "CastCell", for: indexPath)
-        let actor = cast[indexPath.row]
-        let personItemTemp = Bundle.main.loadNibNamed("PersonItem", owner: nil, options: nil)?.first as? PersonItem
-        guard let personItem = personItemTemp else {
+        let cell = castCollectionView.dequeueReusableCell(withReuseIdentifier: "CastCell", for: indexPath) as? CastCell
+        if let cell = cell {
+            let person = cast[indexPath.row]
+            cell.delegate = self
+            cell.configPersonItem(person: person, contentView: cell.contentView)
             return cell
         }
-        personItem.configPersonItem(person: actor)
-        personItem.add(toView: cell.contentView)
-        return cell
+        return UICollectionViewCell()
     }
 
     func collectionView(_ collectionView: UICollectionView,

@@ -61,7 +61,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="144.5" height="217.5"/>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" red="1" green="0.2557485122" blue="0.6772574267" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="8dt-S2-2hx" secondAttribute="bottom" id="Bxx-eM-h3q"/>
                                                 <constraint firstAttribute="width" secondItem="REQ-FX-hWT" secondAttribute="height" multiplier="2:3" id="LCB-0R-rwy"/>
@@ -185,7 +185,6 @@
                                         </label>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRm-oW-pkZ">
                                             <rect key="frame" x="8" y="36" width="144.5" height="250"/>
-                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="250" constant="250" id="JEf-8q-vq8"/>
                                             </constraints>
@@ -216,23 +215,13 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" priority="250" constant="81.5" id="H48-yp-esN"/>
                                             </constraints>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6qS-tp-iHa">
+                                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6qS-tp-iHa">
                                                 <size key="itemSize" width="88" height="76"/>
                                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             </collectionViewFlowLayout>
-                                            <cells>
-                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CastCell" id="5iS-OM-bv3">
-                                                    <rect key="frame" x="0.0" y="0.0" width="88" height="76"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                        <rect key="frame" x="0.0" y="0.0" width="88" height="76"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                    </view>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </collectionViewCell>
-                                            </cells>
+                                            <cells/>
                                             <connections>
                                                 <outlet property="dataSource" destination="-1" id="5zQ-yq-Ljx"/>
                                                 <outlet property="delegate" destination="-1" id="2iA-zf-F4k"/>
@@ -257,7 +246,7 @@
                                 <constraint firstAttribute="trailing" secondItem="TRN-Zd-bNL" secondAttribute="trailing" id="0wc-Rw-0AJ"/>
                                 <constraint firstAttribute="trailing" secondItem="M8t-Lv-qgo" secondAttribute="trailing" id="7H9-hA-Nml"/>
                                 <constraint firstItem="M8t-Lv-qgo" firstAttribute="leading" secondItem="Bmh-pF-gEK" secondAttribute="leading" id="LIq-Ok-HV8"/>
-                                <constraint firstAttribute="bottom" secondItem="M8t-Lv-qgo" secondAttribute="bottom" id="NQS-rt-Ef3"/>
+                                <constraint firstAttribute="bottom" secondItem="M8t-Lv-qgo" secondAttribute="bottom" priority="250" id="NQS-rt-Ef3"/>
                                 <constraint firstItem="TRN-Zd-bNL" firstAttribute="leading" secondItem="Bmh-pF-gEK" secondAttribute="leading" id="P0M-4l-lvZ"/>
                                 <constraint firstItem="M8t-Lv-qgo" firstAttribute="top" secondItem="yzc-ff-4mV" secondAttribute="bottom" id="R24-Kz-Sbd"/>
                                 <constraint firstAttribute="trailing" secondItem="yzc-ff-4mV" secondAttribute="trailing" id="Vlq-9O-coB"/>
@@ -266,7 +255,7 @@
                                 <constraint firstItem="yzc-ff-4mV" firstAttribute="leading" secondItem="Bmh-pF-gEK" secondAttribute="leading" id="pVY-rl-TYf"/>
                             </constraints>
                             <connections>
-                                <outletCollection property="gestureRecognizers" destination="Eax-NQ-854" appends="YES" id="6U9-V5-wNk"/>
+                                <outletCollection property="gestureRecognizers" destination="tnE-Xs-4IX" appends="YES" id="L32-y3-Iej"/>
                             </connections>
                         </view>
                     </subviews>
@@ -290,9 +279,9 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="63.5" y="248"/>
         </view>
-        <swipeGestureRecognizer direction="right" id="Eax-NQ-854">
+        <swipeGestureRecognizer direction="right" id="tnE-Xs-4IX">
             <connections>
-                <action selector="swipeHandler:" destination="-1" id="KBL-i3-mum"/>
+                <action selector="swipeHandler:" destination="-1" id="wBq-IW-Cdh"/>
             </connections>
         </swipeGestureRecognizer>
     </objects>

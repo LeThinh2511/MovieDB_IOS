@@ -73,11 +73,11 @@ class RemoteRepository {
             })
     }
     // Get all movies which is produced by a producer or actor
-    func getMoviesFromPerson(withID personID: Int) -> Observable<([Movie], [Movie])> {
+    func getMoviesFromPerson(withID personID: Int) -> Observable<([Movie]?, [Movie]?)> {
         let para = ["append_to_response": "credits"]
         let request = RequestMovieDB.shared.buildRequest(field: .personDetail, queryID: personID, parameters: para)
         return service.request(request: request)
-            .map({ (response: MoviesOfPersonResponse) -> ([Movie], [Movie]) in
+            .map({ (response: MoviesOfPersonResponse) -> ([Movie]?, [Movie]?) in
                 return (response.cast, response.crew)
             })
     }
