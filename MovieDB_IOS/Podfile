@@ -18,4 +18,6 @@ target 'MovieDB_IOS' do
   pod 'SwiftLint'
   pod 'RxSwift',    '~> 4.0'
   pod 'Cosmos', '~> 16.0'
+  pod 'DropDown'
+  pod 'SQLite.swift', '~> 0.11.5'
 end

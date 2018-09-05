@@ -38,6 +38,7 @@ class MovieDetailPresenter: MovieDetailPresenterProtocol {
 
     func getPerson(personID: Int) {
         self.repository.getPerson(withID: personID)
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] person in
                 self?.view.navigateToPersonDetail(person: person)
             }, onError: nil, onCompleted: nil)

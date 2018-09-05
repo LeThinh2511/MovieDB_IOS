@@ -1,31 +1,29 @@
 //
-//  MoviesTableViewCell.swift
+//  MoviesCollectionView.swift
 //  MovieDB_IOS
 //
-//  Created by Loc Le on 8/23/18.
+//  Created by Loc Le on 8/27/18.
 //  Copyright © 2018 ThinhLe. All rights reserved.
 //
 
 import UIKit
 
-class MoviesTableViewCell: UITableViewCell {
+class MoviesCollectionView: UIView {
 
-    @IBOutlet weak var moviesCollectionView: UICollectionView!
-    @IBOutlet weak var creditsLabel: UILabel!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var nameLabel: UILabel!
 
     var movies = [Movie]()
-    weak var movieCollectionViewCellDelegate: MovieCollectionViewCellDelegate?
+    weak var movieCollectionViewCellDelegate: MovieCollectionViewCellDelegate!
 
     override func awakeFromNib() {
-        self.moviesCollectionView.delegate = self
-        self.moviesCollectionView.dataSource = self
-        moviesCollectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil),
-                                      forCellWithReuseIdentifier: "MovieCollectionViewCell")
+        collectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil),
+                                forCellWithReuseIdentifier: "MovieCollectionViewCell")
     }
 }
 
-extension MoviesTableViewCell: UICollectionViewDataSource,
-UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension MoviesCollectionView: UICollectionViewDelegateFlowLayout,
+    UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
     }
@@ -36,7 +34,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
                                                       for: indexPath) as? MovieCollectionViewCell
         if let cell = cell {
             let movie = movies[indexPath.row]
-            cell.configMovieCollectionViewCell(movie: movie, contentView: cell)
+            cell.configMovieCollectionViewCell(movie: movie, contentView: cell.contentView)
             cell.delegate = movieCollectionViewCellDelegate
             return cell
         }
@@ -45,13 +43,13 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return Constant.cellSize
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return Constant.collectionItemSpacing
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return Constant.collectionItemSpacing
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return Constant.cellSize
     }
 }

@@ -78,7 +78,7 @@ enum Genre: Int, Mappable, CaseIterable {
     case western = 37
 
     init?(map: Map) {
-        guard let id = map.JSON[MovieModel.movieIDMovie] as? Int else {return nil}
+        guard let id = map.JSON[MovieModel.movieIDMovie] as? Int else { return nil }
         self.init(rawValue: id)
     }
 
