@@ -5,7 +5,6 @@
 //  Created by Loc Le on 8/23/18.
 //  Copyright © 2018 ThinhLe. All rights reserved.
 //
-
 import UIKit
 
 // MARK: general name
@@ -20,10 +19,15 @@ struct GeneralName {
     static let allString = "All"
     static let favoriteMovies = "Favorite Movies"
     static let appName = "MovieDB_IOS"
+    static let favoriteMoviesTable = "movies"
+    static let moviesPathExtension = "sqlite3"
 }
 // MARK: Alert message
 struct Message {
     static let searchTextEmptyMessage = "Keyword is not provided!"
+    static let addToFavoriteSuccessful = "Added to favorite"
+    static let deleteFavoriteMovie = "Removed from favorite"
+    static let createTableSuccessful = "Created table"
 }
 
 // MARK: movie model
@@ -68,6 +72,7 @@ struct Constant {
     static var collectionItemSizeRate: CGFloat = 1.75
     static var cellSize = CGSize(width: 0, height: 0)
     static let estimatedRowHeight: CGFloat = 197
+    static let defaultPage = 1
 }
 
 struct API {
