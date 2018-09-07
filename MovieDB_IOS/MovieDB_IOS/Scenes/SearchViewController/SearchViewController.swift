@@ -54,6 +54,7 @@ class SearchViewController: MoviesBaseViewController {
         addOptions()
         addDropDown(dropdown: genresDropDown, to: genreButton, dataSource: genresOption)
         addDropDown(dropdown: categoryDropDown, to: categoryButton, dataSource: categoryOption)
+        self.addDismissKeyboardRecognizer()
     }
 
     private func addOptions() {

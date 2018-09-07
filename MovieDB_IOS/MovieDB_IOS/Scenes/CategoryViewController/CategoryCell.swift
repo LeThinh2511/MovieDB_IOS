@@ -21,14 +21,15 @@ class CategoryCell: UITableViewCell {
     weak var movieCollectionViewCellDelegate: MovieCollectionViewCellDelegate!
     weak var delegate: SeeAllButtonDelegate?
 
-    @IBAction func didTapSeeAllButton(_ sender: Any) {
-        delegate?.didTapSeeAllButton(movies: self.movies, categoryName: self.nameLabel.text)
-    }
     override func awakeFromNib() {
         moviesCollectionView.delegate = self
         moviesCollectionView.dataSource = self
         moviesCollectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil),
                                       forCellWithReuseIdentifier: "MovieCollectionViewCell")
+    }
+
+    @IBAction func didTapSeeAllButton(_ sender: Any) {
+        delegate?.didTapSeeAllButton(movies: self.movies, categoryName: self.nameLabel.text)
     }
 }
 

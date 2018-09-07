@@ -10,12 +10,15 @@ import Foundation
 
 protocol MovieDetailView: class {
     func getCreditsSuccess(cast: [Person], producer: Person?)
-    func getCastFailure()
+    func getDataFailure()
     func navigateToPersonDetail(person: Person)
-    func getPersonFailure()
+    func getMovieWithTrailerPathSuccess(movie: Movie)
+    func loadGenreMoviesSuccess(movies: [Movie], genreID: Int)
 }
 
 protocol MovieDetailPresenterProtocol {
     func getCast(from: Movie)
     func getPerson(personID: Int)
+    func getMovieWithTrailerPath(movieID: Int)
+    func loadGenreMovies(genreID: Int)
 }

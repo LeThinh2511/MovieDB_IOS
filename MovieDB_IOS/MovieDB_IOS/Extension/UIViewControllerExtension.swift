@@ -35,4 +35,13 @@ extension UIViewController {
     func dismissHUD(isAnimated: Bool) {
         MBProgressHUD.hide(for: self.view, animated: isAnimated)
     }
+
+    func addDismissKeyboardRecognizer() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

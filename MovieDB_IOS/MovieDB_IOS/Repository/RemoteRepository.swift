@@ -54,7 +54,8 @@ class RemoteRepository {
 
     // get movie by id
     func getMovie(withId movieID: Int) -> Observable<Movie> {
-        let request = RequestMovieDB.shared.buildRequest(field: .movieDetail, queryID: movieID, parameters: nil)
+        let params = ["append_to_response": "videos"]
+        let request = RequestMovieDB.shared.buildRequest(field: .movieDetail, queryID: movieID, parameters: params)
         return service.request(request: request)
     }
 

@@ -19,6 +19,9 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var averageVote: CosmosView!
     @IBOutlet weak var producerItem: UIView!
     @IBOutlet weak var castCollectionView: UICollectionView!
+    @IBOutlet weak var genresCollectionView: UICollectionView!
+    @IBOutlet weak var overviewLabel: UILabel!
+    @IBOutlet weak var seeMoreButton: UIButton!
 
     var movie: Movie!
     private var cast: [Person]!
@@ -31,6 +34,8 @@ class MovieDetailViewController: UIViewController {
         presenter = MovieDetailPresenter(view: self, repository: RemoteRepository.shared)
         presenter.getCast(from: self.movie)
         castCollectionView.register(UINib(nibName: "CastCell", bundle: nil), forCellWithReuseIdentifier: "CastCell")
+        genresCollectionView.register(UINib(nibName: "GenreCollectionViewCell", bundle: nil),
+                                      forCellWithReuseIdentifier: "GenreCollectionViewCell")
         configMovieDetailView()
         self.showHUD(progressLabel: Message.loading)
     }
@@ -41,14 +46,30 @@ class MovieDetailViewController: UIViewController {
         Constant.cellSize.height = Constant.cellSize.width * Constant.collectionItemSizeRate
         castCollectionView.heightAnchor.constraint(
             greaterThanOrEqualToConstant: Constant.cellSize.height).isActive = true
+        Constant.genreButtonSize.width = Constant.cellSize.width
     }
 
-    @IBAction func swipeHandler(_ sender: UISwipeGestureRecognizer) {
-        self.dismissWithCustomAnimation()
+    @IBAction func didTapTrailerButton(_ sender: UIButton) {
+        self.showHUD(progressLabel: Message.loading)
+        presenter.getMovieWithTrailerPath(movieID: movie.movieID)
+    }
+
+    @IBAction func didTapSeeMoreButton(_ sender: Any) {
+        if overviewLabel.numberOfLines == 0 {
+            overviewLabel.numberOfLines = Constant.numLineLabel
+            overviewLabel.lineBreakMode = .byTruncatingTail
+            seeMoreButton.setTitle(GeneralName.seeMoreTitle, for: .normal)
+        } else {
+            overviewLabel.numberOfLines = 0
+            overviewLabel.lineBreakMode = .byWordWrapping
+            seeMoreButton.setTitle(GeneralName.seeLessTitle, for: .normal)
+        }
+        UIView.animate(withDuration: Constant.durationAnimationTime) {
+            self.view.layoutIfNeeded()
+        }
     }
 
     // MARK: function
-
     private func configMovieDetailView() {
         if let backdropPath = movie.backdropPath {
             let backdropURL = constructURLImage(path: backdropPath)
@@ -66,6 +87,7 @@ class MovieDetailViewController: UIViewController {
         if let voteAverage = movie.voteAverage {
             self.averageVote.rating = voteAverage
         }
+        overviewLabel.text = movie.overview
         movieName.text = movie.title
     }
 }
@@ -73,17 +95,41 @@ class MovieDetailViewController: UIViewController {
 extension MovieDetailViewController: UICollectionViewDataSource,
 UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.cast?.count ?? 0
+        switch collectionView {
+        case self.castCollectionView:
+            return self.cast?.count ?? 0
+        case self.genresCollectionView:
+            return self.movie.genreIDs?.count ?? 0
+        default:
+            return 0
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = castCollectionView.dequeueReusableCell(withReuseIdentifier: "CastCell", for: indexPath) as? CastCell
-        if let cell = cell {
-            let person = cast[indexPath.row]
-            cell.delegate = self
-            cell.configPersonItem(person: person, contentView: cell.contentView)
-            return cell
+        switch collectionView {
+        case self.castCollectionView:
+            let cell = castCollectionView.dequeueReusableCell(withReuseIdentifier: "CastCell",
+                                                              for: indexPath) as? CastCell
+            if let cell = cell {
+                let person = cast[indexPath.row]
+                cell.delegate = self
+                cell.configPersonItem(person: person, contentView: cell.contentView)
+                return cell
+            }
+        case self.genresCollectionView:
+            let cell = genresCollectionView.dequeueReusableCell(withReuseIdentifier: "GenreCollectionViewCell",
+                                                                for: indexPath) as? GenreCollectionViewCell
+            if let cell = cell, let genreID = movie.genreIDs?[indexPath.row], let genre = Genre(rawValue: genreID) {
+                let buttonTitle = String(describing: genre).capitalized
+                cell.genreButton.setTitle(buttonTitle, for: .normal)
+                cell.delegate = self
+                cell.addTo(contentView: cell.contentView)
+                cell.genreID = genreID
+                return cell
+            }
+        default:
+            return UICollectionViewCell()
         }
         return UICollectionViewCell()
     }
@@ -91,13 +137,34 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return Constant.cellSize
+        switch collectionView {
+        case self.castCollectionView:
+            return Constant.cellSize
+        case self.genresCollectionView:
+            return Constant.genreButtonSize
+        default:
+            return CGSize()
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return Constant.collectionItemSpacing
+    }
+}
+
+extension MovieDetailViewController: GenreCollectionViewCellDelegate {
+    func didTapGenreButton(genreID: Int) {
+        self.showHUD(progressLabel: Message.loading)
+        presenter.loadGenreMovies(genreID: genreID)
+    }
+}
+
+extension MovieDetailViewController: PersonItemDelegate {
+    func didTapPersonItem(person: Person) {
+        self.showHUD(progressLabel: Message.loading)
+        self.presenter.getPerson(personID: person.personID)
     }
 }
 
@@ -117,12 +184,22 @@ extension MovieDetailViewController: MovieDetailView {
         self.dismissHUD(isAnimated: true)
     }
 
-    func getCastFailure() {
+    func getDataFailure() {
         self.showMessage(title: GeneralName.appName, message: Message.loadDataFailure)
     }
 
-    func getPersonFailure() {
-        self.showMessage(title: GeneralName.appName, message: Message.loadDataFailure)
+    func getMovieWithTrailerPathSuccess(movie: Movie) {
+        self.movie = movie
+        guard let trailerPath = movie.trailerPath else {
+            self.showMessage(title: GeneralName.appName, message: Message.noTrailerMessage)
+            self.dismissHUD(isAnimated: true)
+            return
+        }
+        let trailerViewController = TrailerViewController(nibName: "TrailerViewController", bundle: nil)
+        trailerViewController.videoYoutubeID = trailerPath
+        trailerViewController.navigationItem.title = GeneralName.trailerLabel
+        navigationController?.pushViewController(trailerViewController, animated: true)
+        self.dismissHUD(isAnimated: true)
     }
 
     func navigateToPersonDetail(person: Person) {
@@ -131,11 +208,16 @@ extension MovieDetailViewController: MovieDetailView {
         navigationController?.pushViewController(personDetailViewController, animated: true)
         self.dismissHUD(isAnimated: true)
     }
-}
 
-extension MovieDetailViewController: PersonItemDelegate {
-    func didTapPersonItem(person: Person) {
-        self.showHUD(progressLabel: Message.loading)
-        self.presenter.getPerson(personID: person.personID)
+    func loadGenreMoviesSuccess(movies: [Movie], genreID: Int) {
+        let viewController = MoviesViewController()
+        viewController.movies = movies
+        let genre = Genre.init(rawValue: genreID)
+        if let genre = genre {
+            let genreName = String(describing: genre).capitalized
+            viewController.name = genreName
+        }
+        navigationController?.pushViewController(viewController, animated: true)
+        self.dismissHUD(isAnimated: true)
     }
 }
