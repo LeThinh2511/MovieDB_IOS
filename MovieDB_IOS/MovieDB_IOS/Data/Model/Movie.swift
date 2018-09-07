@@ -23,6 +23,7 @@ class Movie: Mappable {
     var budget: Int?
     var backdropPath: String?
     var posterPath: String?
+    var trailerPath: String?
 
     required init?(map: Map) {
     }
@@ -44,6 +45,7 @@ class Movie: Mappable {
         backdropPath <- map[MovieModel.backdropPathMovie]
         posterPath <- map[MovieModel.posterPathMovie]
         genreIDs <- map[MovieModel.genreIDsMovie]
+        trailerPath <- map[MovieModel.trailerPath]
     }
 }
 

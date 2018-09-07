@@ -22,6 +22,9 @@ struct GeneralName {
     static let appName = "MovieDB_IOS"
     static let favoriteMoviesTable = "movies"
     static let moviesPathExtension = "sqlite3"
+    static let trailerLabel = "Trailer"
+    static let seeMoreTitle = "see more"
+    static let seeLessTitle = "see less"
 }
 // MARK: Alert message
 struct Message {
@@ -32,6 +35,7 @@ struct Message {
     static let loading = "Loading..."
     static let loadDataFailure = "Can not load data"
     static let errorMessage = "Error"
+    static let noTrailerMessage = "This movie has no trailer"
 }
 
 // MARK: movie model
@@ -51,6 +55,7 @@ struct MovieModel {
     static let favoriteMoviesTable = "movies"
     static let moviesPathExtension = "sqlite3"
     static let genreIDsMovie = "genre_ids"
+    static let trailerPath = "videos.results.0.key"
 }
 // MARK: person model
 struct PersonModel {
@@ -84,6 +89,8 @@ struct Constant {
     static var cellSize = CGSize(width: 0, height: 0)
     static let estimatedRowHeight: CGFloat = 197
     static let defaultPage = 1
+    static var genreButtonSize = CGSize(width: 0, height: 30)
+    static let numLineLabel = 2
 }
 
 struct API {

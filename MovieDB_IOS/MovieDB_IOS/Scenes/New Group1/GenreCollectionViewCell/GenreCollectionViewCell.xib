@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="GenreCollectionViewCell" customModule="MovieDB_IOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="426" height="202"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zvN-zj-wKi">
+                    <rect key="frame" x="0.0" y="0.0" width="426" height="202"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VYb-mu-MWJ">
+                            <rect key="frame" x="0.0" y="0.0" width="426" height="202"/>
+                            <color key="backgroundColor" red="1" green="0.76723638689999996" blue="0.1379431267" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                            <state key="normal" title="Action">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="didTapGenreButton:" destination="iN0-l3-epB" eventType="touchUpInside" id="k63-0o-tqJ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="VYb-mu-MWJ" firstAttribute="top" secondItem="zvN-zj-wKi" secondAttribute="top" id="SHA-Sd-pnc"/>
+                        <constraint firstItem="VYb-mu-MWJ" firstAttribute="leading" secondItem="zvN-zj-wKi" secondAttribute="leading" id="ebZ-6p-xL7"/>
+                        <constraint firstAttribute="trailing" secondItem="VYb-mu-MWJ" secondAttribute="trailing" id="nsB-Qo-61X"/>
+                        <constraint firstAttribute="bottom" secondItem="VYb-mu-MWJ" secondAttribute="bottom" id="tTl-00-3Kb"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="zvN-zj-wKi" secondAttribute="trailing" id="F2z-rD-7GW"/>
+                <constraint firstItem="zvN-zj-wKi" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="M4r-4d-mg0"/>
+                <constraint firstItem="zvN-zj-wKi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="jT8-yu-d1b"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="zvN-zj-wKi" secondAttribute="bottom" id="sa6-2l-S5t"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="containerView" destination="zvN-zj-wKi" id="6QT-Le-4NJ"/>
+                <outlet property="genreButton" destination="VYb-mu-MWJ" id="NDx-6B-iTv"/>
+            </connections>
+            <point key="canvasLocation" x="59" y="-179"/>
+        </view>
+    </objects>
+</document>
