@@ -34,10 +34,21 @@ class CategoryPresenter: CategoryPresenterProtocol {
                     category.movies = movies
                     categories.append(category)
                     self?.view.loadDataSuccess(categories: categories)
-                    }, onError: { error in
-                        print(error) //TODOs : EDIT LATER
-                }, onCompleted: nil)
+                    }, onError: { [weak self] _ in
+                        self?.view.loadDataFailure()
+                })
                 .disposed(by: disposeBag)
         }
+    }
+
+    func loadGenreMovies(genreID: Int) {
+        self.remoteRepository.getGenreMovie(genreID: genreID, page: Constant.defaultPage)
+        .observeOn(MainScheduler.instance)
+        .subscribe(onNext: { (movies) in
+            self.view.loadGenreMoviesSuccess(movies: movies, genreID: genreID)
+            }, onError: { [weak self] _ in
+                self?.view.loadDataFailure()
+        })
+        .disposed(by: disposeBag)
     }
 }

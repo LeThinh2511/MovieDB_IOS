@@ -32,7 +32,7 @@ class MovieDetailPresenter: MovieDetailPresenterProtocol {
                 self?.view.getCreditsSuccess(cast: cast, producer: producer)
                 }, onError: { [weak self] (_) in
                     self?.view.getCastFailure()
-            }, onCompleted: nil, onDisposed: nil)
+            })
         .disposed(by: disposeBag)
     }
 
@@ -41,7 +41,9 @@ class MovieDetailPresenter: MovieDetailPresenterProtocol {
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] person in
                 self?.view.navigateToPersonDetail(person: person)
-            }, onError: nil, onCompleted: nil)
+            }, onError: { [weak self] _ in
+                self?.view.getPersonFailure()
+            })
             .disposed(by: disposeBag)
     }
 }

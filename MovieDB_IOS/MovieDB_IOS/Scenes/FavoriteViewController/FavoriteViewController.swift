@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavoriteViewController: UIViewController {
+class FavoriteViewController: MoviesBaseViewController {
 
     @IBOutlet weak var collectionViewHolder: UIView!
 
@@ -16,24 +16,30 @@ class FavoriteViewController: UIViewController {
     private var collectionView: MoviesCollectionView!
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         addCollectionView()
         presenter = FavoriteViewPresenter(view: self, localRepository: LocalRepository.shared)
+        presenter.loadFavoriteMovies()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateFavoriteMovies),
+                                               name: NotificationName.updateFavoriteMovies,
+                                               object: nil)
     }
-    
+
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NotificationName.updateFavoriteMovies, object: nil)
+    }
+
+    @objc func updateFavoriteMovies() {
+        presenter.loadFavoriteMovies()
+    }
+
     private func addCollectionView() {
         self.collectionView = Bundle.main.loadNibNamed("MoviesCollectionView",
                                                        owner: nil, options: nil)?.first as? MoviesCollectionView
         collectionView.movieCollectionViewCellDelegate = self
         collectionView.add(toView: collectionViewHolder)
         collectionView.nameLabel.text = GeneralName.favoriteMovies
-    }
-}
-
-extension FavoriteViewController: MovieCollectionViewCellDelegate {
-    func didTapMovieCollectionViewCell(movie: Movie) {
-        let movieDetailViewController = MovieDetailViewController(nibName: "MovieDetailViewController", bundle: nil)
-        movieDetailViewController.movie = movie
-        self.present(movieDetailViewController, animated: true, completion: nil)
     }
 }
 
@@ -45,7 +51,7 @@ extension FavoriteViewController: FavoriteView {
             collectionView.collectionView.reloadData()
         }
     }
-    
+
     func loadFavoriteMovieFailure(error: SQLiteError) {
         self.showMessage(title: GeneralName.appName, message: error.rawValue)
     }

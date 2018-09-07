@@ -12,6 +12,7 @@ protocol MovieDetailView: class {
     func getCreditsSuccess(cast: [Person], producer: Person?)
     func getCastFailure()
     func navigateToPersonDetail(person: Person)
+    func getPersonFailure()
 }
 
 protocol MovieDetailPresenterProtocol {

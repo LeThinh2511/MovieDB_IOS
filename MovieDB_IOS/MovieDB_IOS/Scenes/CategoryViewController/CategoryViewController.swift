@@ -9,7 +9,7 @@
 import UIKit
 import ObjectMapper
 
-class CategoryViewController: UIViewController, CategoryView, MovieCollectionViewCellDelegate {
+class CategoryViewController: MoviesBaseViewController {
 
     @IBOutlet weak var leftSideViewleadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var leftTableView: UITableView!
@@ -19,24 +19,15 @@ class CategoryViewController: UIViewController, CategoryView, MovieCollectionVie
     private var genres = [Genre]()
     private var presenter: CategoryPresenter!
 
-    @IBAction func toggleLeftSideMenu(_ sender: UIButton) {
-        if leftSideViewleadingConstraint.priority == UILayoutPriority(rawValue: Constant.activeConstraint) {
-            leftSideViewleadingConstraint.priority = UILayoutPriority(rawValue: Constant.inactiveConstraint)
-        } else {
-            leftSideViewleadingConstraint.priority = UILayoutPriority(rawValue: Constant.activeConstraint)
-        }
-        UIView.animate(withDuration: Constant.durationAnimationTime) {
-            self.view.layoutIfNeeded()
-        }
-    }
-
     // MARK: life cycle
     override func viewDidLoad() {
+        super.viewDidLoad()
         mainTableView.rowHeight = UITableViewAutomaticDimension
         mainTableView.estimatedRowHeight = Constant.estimatedRowHeight
         self.presenter = CategoryPresenter(view: self, remoteRepository: RemoteRepository.shared)
         presenter.loadData()
         genres = Genre.allCases
+        self.showHUD(progressLabel: Message.loading)
     }
 
     override func viewDidLayoutSubviews() {
@@ -49,16 +40,22 @@ class CategoryViewController: UIViewController, CategoryView, MovieCollectionVie
         return UIStatusBarStyle.lightContent
     }
 
-    // MARK: control function
-    func loadDataSuccess(categories: [MovieCategory]) {
-        self.categories = categories
-        mainTableView.reloadData()
+    @IBAction func dismissLeftSideMenu(_ sender: Any) {
+        leftSideViewleadingConstraint.priority = UILayoutPriority(rawValue: Constant.activeConstraint)
+        UIView.animate(withDuration: Constant.durationAnimationTime) {
+            self.view.layoutIfNeeded()
+        }
     }
 
-    func didTapMovieCollectionViewCell(movie: Movie) {
-        let movieDetailViewController = MovieDetailViewController(nibName: "MovieDetailViewController", bundle: nil)
-        movieDetailViewController.movie = movie
-        self.present(movieDetailViewController, animated: true, completion: nil)
+    @IBAction func toggleLeftSideMenu(_ sender: UIBarButtonItem) {
+        if leftSideViewleadingConstraint.priority == UILayoutPriority(rawValue: Constant.activeConstraint) {
+            leftSideViewleadingConstraint.priority = UILayoutPriority(rawValue: Constant.inactiveConstraint)
+        } else {
+            leftSideViewleadingConstraint.priority = UILayoutPriority(rawValue: Constant.activeConstraint)
+        }
+        UIView.animate(withDuration: Constant.durationAnimationTime) {
+            self.view.layoutIfNeeded()
+        }
     }
 }
 
@@ -67,8 +64,10 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
         switch tableView {
         case self.mainTableView:
             return categories.count
-        default:
+        case self.leftTableView:
             return genres.count
+        default:
+            return 0
         }
     }
 
@@ -80,6 +79,7 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
                 let category = self.categories[indexPath.row]
                 cell.movies = category.movies
                 cell.movieCollectionViewCellDelegate = self
+                cell.delegate = self
                 cell.selectionStyle = .none
                 cell.nameLabel.text = category.name
                 let height = Constant.cellSize.height
@@ -87,11 +87,63 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
             return UITableViewCell()
+        case self.leftTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "GenreCell", for: indexPath) as? GenreCell
+            if let cell = cell {
+                let genre = self.genres[indexPath.row]
+                let buttonName = String(describing: genre).capitalized
+                cell.genreButton.setTitle(buttonName, for: .normal)
+                cell.delegate = self
+                cell.genreID = genre.rawValue
+                return cell
+            }
+            return UITableViewCell()
         default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "leftTableViewCell", for: indexPath)
-            let genre = self.genres[indexPath.row]
-            cell.textLabel?.text = String(describing: genre).capitalized
-            return cell
+            return UITableViewCell()
         }
+    }
+}
+
+extension CategoryViewController: SeeAllButtonDelegate {
+    func didTapSeeAllButton(movies: [Movie], categoryName: String?) {
+        let viewController = MoviesViewController()
+        viewController.movies = movies
+        viewController.name = categoryName
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
+extension CategoryViewController: GenreCellDelegate {
+    func didTapGenreButton(genreID: Int) {
+        leftSideViewleadingConstraint.priority = UILayoutPriority(rawValue: Constant.activeConstraint)
+        UIView.animate(withDuration: Constant.durationAnimationTime) {
+            self.view.layoutIfNeeded()
+        }
+        self.showHUD(progressLabel: Message.loading)
+        presenter.loadGenreMovies(genreID: genreID)
+    }
+}
+
+extension CategoryViewController: CategoryView {
+    func loadDataSuccess(categories: [MovieCategory]) {
+        self.categories = categories
+        mainTableView.reloadData()
+        self.dismissHUD(isAnimated: true)
+    }
+
+    func loadGenreMoviesSuccess(movies: [Movie], genreID: Int) {
+        let viewController = MoviesViewController()
+        viewController.movies = movies
+        let genre = Genre.init(rawValue: genreID)
+        if let genre = genre {
+            let genreName = String(describing: genre).capitalized
+            viewController.name = genreName
+        }
+        navigationController?.pushViewController(viewController, animated: true)
+        self.dismissHUD(isAnimated: true)
+    }
+
+    func loadDataFailure() {
+        self.showMessage(title: GeneralName.appName, message: Message.loadDataFailure)
     }
 }

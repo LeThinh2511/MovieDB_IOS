@@ -19,7 +19,7 @@ class Movie: Mappable {
     var popularity: Double?
     var overview: String?
     var movieID: Int!
-    var genres: [Genre]?
+    var genreIDs: [Int]?
     var budget: Int?
     var backdropPath: String?
     var posterPath: String?
@@ -43,6 +43,7 @@ class Movie: Mappable {
         budget <- map[MovieModel.budgetMovie]
         backdropPath <- map[MovieModel.backdropPathMovie]
         posterPath <- map[MovieModel.posterPathMovie]
+        genreIDs <- map[MovieModel.genreIDsMovie]
     }
 }
 

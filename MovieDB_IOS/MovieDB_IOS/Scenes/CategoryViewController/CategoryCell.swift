@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SeeAllButtonDelegate: class {
+    func didTapSeeAllButton(movies: [Movie], categoryName: String?)
+}
+
 class CategoryCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
@@ -15,7 +19,11 @@ class CategoryCell: UITableViewCell {
 
     var movies = [Movie]()
     weak var movieCollectionViewCellDelegate: MovieCollectionViewCellDelegate!
+    weak var delegate: SeeAllButtonDelegate?
 
+    @IBAction func didTapSeeAllButton(_ sender: Any) {
+        delegate?.didTapSeeAllButton(movies: self.movies, categoryName: self.nameLabel.text)
+    }
     override func awakeFromNib() {
         moviesCollectionView.delegate = self
         moviesCollectionView.dataSource = self

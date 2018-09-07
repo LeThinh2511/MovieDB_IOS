@@ -20,7 +20,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gif-ht-hQL">
                     <rect key="frame" x="0.0" y="20" width="370" height="660"/>
                     <subviews>
-                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8f5-rQ-Wg7">
+                        <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="8f5-rQ-Wg7">
                             <rect key="frame" x="0.0" y="0.0" width="370" height="555"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="8f5-rQ-Wg7" secondAttribute="height" multiplier="500:750" id="jHf-tB-Vzt"/>
@@ -73,4 +73,7 @@
             <point key="canvasLocation" x="31" y="60"/>
         </view>
     </objects>
+    <resources>
+        <image name="defaultImage" width="256" height="256"/>
+    </resources>
 </document>

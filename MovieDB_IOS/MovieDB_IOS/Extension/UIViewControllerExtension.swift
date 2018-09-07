@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 extension UIViewController {
     func dismissWithCustomAnimation() {
@@ -24,5 +25,14 @@ extension UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
+    }
+
+    func showHUD(progressLabel: String) {
+        let progressHUD = MBProgressHUD.showAdded(to: self.view, animated: true)
+        progressHUD.label.text = progressLabel
+    }
+
+    func dismissHUD(isAnimated: Bool) {
+        MBProgressHUD.hide(for: self.view, animated: isAnimated)
     }
 }

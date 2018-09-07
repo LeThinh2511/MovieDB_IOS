@@ -47,17 +47,17 @@ class LocalRepository {
         do {
             try self.connection.run(movies.create(
                 temporary: false, ifNotExists: true, withoutRowid: false, block: { (tableBuider) in
-                    tableBuider.column(voteCountCol)
-                    tableBuider.column(voteAverageCol)
-                    tableBuider.column(titleCol)
-                    tableBuider.column(revenueCol)
-                    tableBuider.column(releaseDateCol)
-                    tableBuider.column(popularityCol)
-                    tableBuider.column(overviewCol)
-                    tableBuider.column(budgetCol)
-                    tableBuider.column(backdropPathCol)
-                    tableBuider.column(posterPathCol)
-                    tableBuider.column(movieIDCol, primaryKey: true)
+                tableBuider.column(voteCountCol)
+                tableBuider.column(voteAverageCol)
+                tableBuider.column(titleCol)
+                tableBuider.column(revenueCol)
+                tableBuider.column(releaseDateCol)
+                tableBuider.column(popularityCol)
+                tableBuider.column(overviewCol)
+                tableBuider.column(budgetCol)
+                tableBuider.column(backdropPathCol)
+                tableBuider.column(posterPathCol)
+                tableBuider.column(movieIDCol, primaryKey: true)
             }))
             return .success(Message.createTableSuccessful)
         } catch {
