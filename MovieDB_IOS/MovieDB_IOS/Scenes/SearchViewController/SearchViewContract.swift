@@ -10,8 +10,9 @@ import Foundation
 
 protocol SearchView: class {
     func searchSuccess(movies: [Movie])
+    func searchFailure()
 }
 
 protocol SearchViewPresenterProtocol: class {
-    func search(keyword: String, genre: String?, category: String?)
+    func search(keyword: String, genreID: Int?, category: String?)
 }

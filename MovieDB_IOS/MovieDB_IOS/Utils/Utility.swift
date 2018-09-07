@@ -5,6 +5,7 @@
 //  Created by Loc Le on 8/23/18.
 //  Copyright © 2018 ThinhLe. All rights reserved.
 //
+
 import UIKit
 
 // MARK: general name
@@ -28,6 +29,9 @@ struct Message {
     static let addToFavoriteSuccessful = "Added to favorite"
     static let deleteFavoriteMovie = "Removed from favorite"
     static let createTableSuccessful = "Created table"
+    static let loading = "Loading..."
+    static let loadDataFailure = "Can not load data"
+    static let errorMessage = "Error"
 }
 
 // MARK: movie model
@@ -46,6 +50,7 @@ struct MovieModel {
     static let posterPathMovie = "poster_path"
     static let favoriteMoviesTable = "movies"
     static let moviesPathExtension = "sqlite3"
+    static let genreIDsMovie = "genre_ids"
 }
 // MARK: person model
 struct PersonModel {
@@ -60,6 +65,12 @@ struct PersonModel {
     static let placeOfBirthPerson = "place_of_birth"
     static let profilePathPerson = "profile_path"
     static let jobPerson = "job"
+}
+
+// MARK: GenreMovie model
+struct GenreMovieModel {
+    static let genreID = "id"
+    static let genreName = "name"
 }
 
 // MARK: common value
@@ -79,19 +90,14 @@ struct API {
     static let apiKey = "a13cd0049bdd3d3275de11627248af15"
     static let baseAPIURL = "https://api.themoviedb.org/3/"
 }
+
+struct NotificationName {
+    static let updateFavoriteMovies = NSNotification.Name(rawValue: "updateFavoriteMovies")
+}
+
 // MARK: Util function
 func constructURLImage(path: String) -> String {
     let baseURL = "https://image.tmdb.org/t/p/w500"
     let url = baseURL + path
     return url
-}
-
-func getCurrentViewController() -> UIViewController? {
-    if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
-        while let presentedViewController = topViewController.presentedViewController {
-            topViewController = presentedViewController
-        }
-        return topViewController
-    }
-    return nil
 }

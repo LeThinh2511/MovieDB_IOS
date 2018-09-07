@@ -9,10 +9,6 @@
 import UIKit
 import Cosmos
 
-protocol MovieCollectionViewCellDelegate: class {
-    func didTapMovieCollectionViewCell(movie: Movie)
-}
-
 class MovieCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var containerView: UIView!
@@ -23,9 +19,10 @@ class MovieCollectionViewCell: UICollectionViewCell {
 
     weak var delegate: MovieCollectionViewCellDelegate?
     var movie: Movie!
+    private let localRepository = LocalRepository.shared
 
     @IBAction func toggleFavorite(_ sender: Any) {
-        print("toggle favorite") // TODOs: Edit later
+        delegate?.didTapFavoriteButton(movie: movie, cell: self)
     }
 
     func configMovieCollectionViewCell(movie: Movie, contentView: UIView) {
@@ -35,7 +32,12 @@ class MovieCollectionViewCell: UICollectionViewCell {
             let url = constructURLImage(path: posterPath)
             self.imageView.loadImage(from: url)
         }
-        self.favoriteButton.setImage(#imageLiteral(resourceName: "unfavorite"), for: .normal)
+
+        if localRepository.checkFavoriteMovie(movie: movie) {
+            self.favoriteButton.setImage(#imageLiteral(resourceName: "favorite"), for: .normal)
+        } else {
+            self.favoriteButton.setImage(#imageLiteral(resourceName: "unfavorite"), for: .normal)
+        }
 
         if let rateAverage = movie.voteAverage, let voteCount = movie.voteCount {
             let rate = rateAverage / 2

@@ -14,11 +14,13 @@ class MoviesCollectionView: UIView {
     @IBOutlet weak var nameLabel: UILabel!
 
     var movies = [Movie]()
-    weak var movieCollectionViewCellDelegate: MovieCollectionViewCellDelegate!
+    weak var movieCollectionViewCellDelegate: MovieCollectionViewCellDelegate?
 
     override func awakeFromNib() {
         collectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil),
                                 forCellWithReuseIdentifier: "MovieCollectionViewCell")
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
 }
 

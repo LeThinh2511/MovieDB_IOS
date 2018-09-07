@@ -9,7 +9,7 @@
 import UIKit
 import DropDown
 
-class SearchViewController: UIViewController {
+class SearchViewController: MoviesBaseViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noResultLabel: UILabel!
@@ -24,6 +24,22 @@ class SearchViewController: UIViewController {
     private var genresDropDown = DropDown()
     private var categoryDropDown =  DropDown()
     private var presenter: SearchViewPresenter!
+    private var genreID: Int?
+    private let genres = Genre.allCases
+
+    // MARK: LIFE CYCLE
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpUI()
+        presenter = SearchViewPresenter(view: self, repository: RemoteRepository.shared)
+        collectionView.register(UINib(nibName: "MovieCollectionViewCell",
+                                      bundle: nil), forCellWithReuseIdentifier: "MovieCollectionViewCell")
+    }
 
     @IBAction func genresButtonTapped(_ sender: Any) {
         genresDropDown.show()
@@ -33,28 +49,14 @@ class SearchViewController: UIViewController {
         categoryDropDown.show()
     }
 
-    // MARK: LIFE CYCLE
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return UIStatusBarStyle.lightContent
-    }
-
-    override func viewDidLoad() {
-        self.setUpUI()
-        presenter = SearchViewPresenter(view: self, repository: RemoteRepository.shared)
-        collectionView.register(UINib(nibName: "MovieCollectionViewCell", bundle: nil),
-                                forCellWithReuseIdentifier: "MovieCollectionViewCell")
-    }
-
     // MARK: CONFIG VIEW
     private func setUpUI() {
         addOptions()
         addDropDown(dropdown: genresDropDown, to: genreButton, dataSource: genresOption)
         addDropDown(dropdown: categoryDropDown, to: categoryButton, dataSource: categoryOption)
     }
-    
+
     private func addOptions() {
-        let genres = Genre.allCases
         genresOption.append(GeneralName.allString)
         for genre in genres {
             let option = String(describing: genre)
@@ -77,6 +79,7 @@ class SearchViewController: UIViewController {
         }
         dropdown.selectionAction = { (index: Int, item: String) in
             button.setTitle(item, for: .normal)
+            self.genreID = index == 0 ? nil : self.genres[index - 1].rawValue
         }
     }
 }
@@ -118,26 +121,23 @@ extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let keyword = searchBar.text
         if let keyword = keyword, !keyword.isEmpty {
-            presenter.search(keyword: keyword, genre: nil, category: nil)
+            self.showHUD(progressLabel: Message.loading)
+            presenter.search(keyword: keyword, genreID: genreID, category: nil)
         } else {
             self.showMessage(title: GeneralName.appName, message: Message.searchTextEmptyMessage)
         }
     }
 }
 
-extension SearchViewController: MovieCollectionViewCellDelegate {
-    func didTapMovieCollectionViewCell(movie: Movie) {
-        let movieDetailViewController = MovieDetailViewController(nibName: "MovieDetailViewController", bundle: nil)
-        movieDetailViewController.movie = movie
-        self.present(movieDetailViewController, animated: true, completion: nil)
-    }
-}
-
-
 extension SearchViewController: SearchView {
     func searchSuccess(movies: [Movie]) {
         moviesFound = movies
         noResultLabel.isHidden = !movies.isEmpty
         collectionView.reloadData()
+        self.dismissHUD(isAnimated: true)
+    }
+
+    func searchFailure() {
+        self.showMessage(title: GeneralName.appName, message: Message.errorMessage)
     }
 }

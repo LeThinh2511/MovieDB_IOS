@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PersonDetailViewController: UIViewController, PersonDetailView, MovieCollectionViewCellDelegate {
+class PersonDetailViewController: MoviesBaseViewController {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -21,10 +21,6 @@ class PersonDetailViewController: UIViewController, PersonDetailView, MovieColle
     var person: Person!
     var presenter: PersonDetailPresenter!
 
-    @IBAction func swipeHandler(_ sender: Any) {
-        self.dismissWithCustomAnimation()
-    }
-
     // MARK: LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +28,7 @@ class PersonDetailViewController: UIViewController, PersonDetailView, MovieColle
         presenter.loadCredits(personID: self.person.personID)
         configPersonDetailView()
         setUpTableView()
+        self.showHUD(progressLabel: Message.loading)
     }
 
     override func viewDidLayoutSubviews() {
@@ -40,18 +37,11 @@ class PersonDetailViewController: UIViewController, PersonDetailView, MovieColle
         Constant.cellSize.height = Constant.cellSize.width * Constant.collectionItemSizeRate
     }
 
+    @IBAction func swipeHandler(_ sender: Any) {
+        self.dismissWithCustomAnimation()
+    }
+
     // MARK: function
-    func loadCreditsSuccess(categories: [MovieCategory]) {
-        self.categories = categories
-        tableView.reloadData()
-    }
-
-    func didTapMovieCollectionViewCell(movie: Movie) {
-        let movieDetailViewController = MovieDetailViewController(nibName: "MovieDetailViewController", bundle: nil)
-        movieDetailViewController.movie = movie
-        self.present(movieDetailViewController, animated: true, completion: nil)
-    }
-
     private func configPersonDetailView() {
         self.nameLabel.text = person.name ?? GeneralName.noInforLabel
         self.birthdayLable.text = person.birthday ?? GeneralName.noInforLabel
@@ -91,5 +81,17 @@ extension PersonDetailViewController: UITableViewDelegate, UITableViewDataSource
             return cell
         }
         return UITableViewCell()
+    }
+}
+
+extension PersonDetailViewController: PersonDetailView {
+    func loadCreditsSuccess(categories: [MovieCategory]) {
+        self.categories = categories
+        tableView.reloadData()
+        self.dismissHUD(isAnimated: true)
+    }
+
+    func loadCreditsFailure() {
+        self.showMessage(title: GeneralName.appName, message: Message.loadDataFailure)
     }
 }

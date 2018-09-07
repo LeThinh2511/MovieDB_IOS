@@ -31,7 +31,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tta-6W-uo9">
                     <rect key="frame" x="0.0" y="20" width="375" height="222.5"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="67W-et-F5v">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="67W-et-F5v">
                             <rect key="frame" x="0.0" y="0.0" width="148.5" height="222.5"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="67W-et-F5v" secondAttribute="height" multiplier="2:3" id="ZQf-i4-7GF"/>
@@ -180,4 +180,7 @@
             </connections>
         </swipeGestureRecognizer>
     </objects>
+    <resources>
+        <image name="defaultImage" width="256" height="256"/>
+    </resources>
 </document>

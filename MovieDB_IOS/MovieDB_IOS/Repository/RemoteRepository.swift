@@ -74,11 +74,21 @@ class RemoteRepository {
     }
     // Get all movies which is produced by a producer or actor
     func getMoviesFromPerson(withID personID: Int) -> Observable<([Movie]?, [Movie]?)> {
-        let para = ["append_to_response": "credits"]
-        let request = RequestMovieDB.shared.buildRequest(field: .personDetail, queryID: personID, parameters: para)
+        let param = ["append_to_response": "credits"]
+        let request = RequestMovieDB.shared.buildRequest(field: .personDetail, queryID: personID, parameters: param)
         return service.request(request: request)
             .map({ (response: MoviesOfPersonResponse) -> ([Movie]?, [Movie]?) in
                 return (response.cast, response.crew)
             })
+    }
+
+    // Get movies by genre
+    func getGenreMovie(genreID: Int, page: Int) -> Observable<[Movie]> {
+        let param = ["with_genres": genreID, "page": page]
+        let request = RequestMovieDB.shared.buildRequest(field: .genreMovie, queryID: nil, parameters: param)
+        return service.request(request: request)
+            .map { (response: MoviesResponse) -> [Movie] in
+                return response.results
+        }
     }
 }

@@ -37,7 +37,9 @@ class PersonDetailPresenter: PersonDetailPresenterProtocol {
                         categories.append(category)
                 }
                 self?.view.loadCreditsSuccess(categories: categories)
-            }, onError: nil, onCompleted: nil)
+                }, onError: { [weak self] _ in
+                self?.view.loadCreditsFailure()
+            })
             .disposed(by: disposeBag)
     }
 }

@@ -57,7 +57,7 @@
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="REQ-FX-hWT">
                                             <rect key="frame" x="0.0" y="310.5" width="144.5" height="217.5"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8dt-S2-2hx">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultImage" translatesAutoresizingMaskIntoConstraints="NO" id="8dt-S2-2hx">
                                                     <rect key="frame" x="0.0" y="0.0" width="144.5" height="217.5"/>
                                                 </imageView>
                                             </subviews>
@@ -92,7 +92,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wy3-vU-Efh">
                                                             <rect key="frame" x="0.0" y="35" width="137.5" height="35"/>
                                                             <subviews>
-                                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NQU-3M-bOM" customClass="CosmosView" customModule="Cosmos">
+                                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NQU-3M-bOM" customClass="CosmosView" customModule="Cosmos">
                                                                     <rect key="frame" x="0.0" y="0.0" width="137.5" height="35"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <userDefinedRuntimeAttributes>
@@ -285,4 +285,7 @@
             </connections>
         </swipeGestureRecognizer>
     </objects>
+    <resources>
+        <image name="defaultImage" width="256" height="256"/>
+    </resources>
 </document>

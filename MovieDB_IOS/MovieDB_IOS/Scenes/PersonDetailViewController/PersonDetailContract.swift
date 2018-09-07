@@ -14,4 +14,5 @@ protocol PersonDetailPresenterProtocol: class {
 
 protocol PersonDetailView: class {
     func loadCreditsSuccess(categories: [MovieCategory])
+    func loadCreditsFailure()
 }

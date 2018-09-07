@@ -21,19 +21,22 @@ class SearchViewPresenter: SearchViewPresenterProtocol {
         self.repository = repository
     }
 
-    func search(keyword: String, genre: String?, category: String?) {
+    func search(keyword: String, genreID: Int?, category: String?) {
         repository.searchMovie(query: keyword, page: Constant.defaultPage)
             .observeOn(MainScheduler.instance)
             .map({ (movies) -> [Movie] in
-                self.movieFilter(movies: movies, genre: genre, category: category)
+                self.movieFilter(movies: movies, genreID: genreID, category: category)
             })
             .subscribe(onNext: { [weak self] (movies) in
                 self?.view.searchSuccess(movies: movies)
-            }, onError: nil, onCompleted: nil)
+                }, onError: { [weak self] _ in
+                self?.view.searchFailure()
+            })
             .disposed(by: disposeBag)
     }
 
-    private func movieFilter(movies: [Movie], genre: String?, category: String?) -> [Movie] {
-        return movies // TODOs: Edit later
+    private func movieFilter(movies: [Movie], genreID: Int?, category: String?) -> [Movie] {
+        guard let id = genreID else { return movies }
+        return movies.filter({$0.genreIDs?.contains(id) ?? false})
     }
 }

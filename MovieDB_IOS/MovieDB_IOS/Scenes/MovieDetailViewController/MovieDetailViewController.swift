@@ -9,7 +9,7 @@
 import UIKit
 import Cosmos
 
-class MovieDetailViewController: UIViewController, MovieDetailView, PersonItemDelegate {
+class MovieDetailViewController: UIViewController {
 
     // MARK: Connection
     @IBOutlet weak var backdropImageView: UIImageView!
@@ -25,10 +25,6 @@ class MovieDetailViewController: UIViewController, MovieDetailView, PersonItemDe
     private var producer: Person!
     private var presenter: MovieDetailPresenter!
 
-    @IBAction func swipeHandler(_ sender: UISwipeGestureRecognizer) {
-        self.dismissWithCustomAnimation()
-    }
-
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +32,7 @@ class MovieDetailViewController: UIViewController, MovieDetailView, PersonItemDe
         presenter.getCast(from: self.movie)
         castCollectionView.register(UINib(nibName: "CastCell", bundle: nil), forCellWithReuseIdentifier: "CastCell")
         configMovieDetailView()
+        self.showHUD(progressLabel: Message.loading)
     }
 
     override func viewDidLayoutSubviews() {
@@ -46,49 +43,30 @@ class MovieDetailViewController: UIViewController, MovieDetailView, PersonItemDe
             greaterThanOrEqualToConstant: Constant.cellSize.height).isActive = true
     }
 
+    @IBAction func swipeHandler(_ sender: UISwipeGestureRecognizer) {
+        self.dismissWithCustomAnimation()
+    }
+
     // MARK: function
-    func getCreditsSuccess(cast: [Person], producer: Person?) {
-        self.cast = cast
-        self.producer = producer
-        let personItem = Bundle.main.loadNibNamed("PersonItem", owner: nil, options: nil)?.first as? PersonItem
-        if let personItem = personItem {
-            personItem.configPersonItem(person: producer)
-            personItem.delegate = self
-            personItem.add(toView: self.producerItem)
-            self.producerItem.heightAnchor.constraint(equalToConstant: Constant.cellSize.height).isActive = true
-            self.producerItem.widthAnchor.constraint(equalToConstant: Constant.cellSize.width).isActive = true
-        }
-        castCollectionView.reloadData()
-    }
-
-    func getCastFailure() {
-        print("Nothing to show") //TODOs : edit later
-    }
-
-    func didTapPersonItem(person: Person) {
-        self.presenter.getPerson(personID: person.personID)
-    }
-
-    func navigateToPersonDetail(person: Person) {
-        let personDetailViewController = PersonDetailViewController(nibName: "PersonDetailViewController", bundle: nil)
-        personDetailViewController.person = person
-        self.present(personDetailViewController, animated: true, completion: nil)
-    }
 
     private func configMovieDetailView() {
-        guard let backdropPath = movie.backdropPath, let posterPath = movie.posterPath, let title = movie.title  else {
-            return
+        if let backdropPath = movie.backdropPath {
+            let backdropURL = constructURLImage(path: backdropPath)
+            backdropImageView.loadImage(from: backdropURL)
         }
-        guard let voteCount = movie.voteCount, let voteAverage = movie.voteAverage else {
-            return
+        if let posterPath = movie.posterPath {
+            let posterURL = constructURLImage(path: posterPath)
+            posterImageView.loadImage(from: posterURL)
         }
-        let backdropURL = constructURLImage(path: backdropPath)
-        let posterURL = constructURLImage(path: posterPath)
-        backdropImageView.loadImage(from: backdropURL)
-        posterImageView.loadImage(from: posterURL)
-        movieName.text = title
-        self.voteCount.text = "(\(voteCount))"
-        self.averageVote.rating = voteAverage
+
+        if let voteCount = movie.voteCount {
+            self.voteCount.text = "(\(voteCount))"
+        }
+
+        if let voteAverage = movie.voteAverage {
+            self.averageVote.rating = voteAverage
+        }
+        movieName.text = movie.title
     }
 }
 
@@ -120,5 +98,44 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return Constant.collectionItemSpacing
+    }
+}
+
+extension MovieDetailViewController: MovieDetailView {
+    func getCreditsSuccess(cast: [Person], producer: Person?) {
+        self.cast = cast
+        self.producer = producer
+        let personItem = Bundle.main.loadNibNamed("PersonItem", owner: nil, options: nil)?.first as? PersonItem
+        if let personItem = personItem {
+            personItem.configPersonItem(person: producer)
+            personItem.delegate = self
+            personItem.add(toView: self.producerItem)
+            self.producerItem.heightAnchor.constraint(equalToConstant: Constant.cellSize.height).isActive = true
+            self.producerItem.widthAnchor.constraint(equalToConstant: Constant.cellSize.width).isActive = true
+        }
+        castCollectionView.reloadData()
+        self.dismissHUD(isAnimated: true)
+    }
+
+    func getCastFailure() {
+        self.showMessage(title: GeneralName.appName, message: Message.loadDataFailure)
+    }
+
+    func getPersonFailure() {
+        self.showMessage(title: GeneralName.appName, message: Message.loadDataFailure)
+    }
+
+    func navigateToPersonDetail(person: Person) {
+        let personDetailViewController = PersonDetailViewController(nibName: "PersonDetailViewController", bundle: nil)
+        personDetailViewController.person = person
+        navigationController?.pushViewController(personDetailViewController, animated: true)
+        self.dismissHUD(isAnimated: true)
+    }
+}
+
+extension MovieDetailViewController: PersonItemDelegate {
+    func didTapPersonItem(person: Person) {
+        self.showHUD(progressLabel: Message.loading)
+        self.presenter.getPerson(personID: person.personID)
     }
 }

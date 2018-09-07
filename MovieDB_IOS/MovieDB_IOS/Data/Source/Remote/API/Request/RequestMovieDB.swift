@@ -71,4 +71,5 @@ enum FieldMovieDB: String {
     case movieUpcoming = "movie/upcoming"
     case movieTopRate = "movie/top_rated"
     case searchMovie = "search/movie"
+    case genreMovie = "discover/movie"
 }
