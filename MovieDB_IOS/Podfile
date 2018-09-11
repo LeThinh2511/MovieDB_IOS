@@ -21,4 +21,9 @@ target 'MovieDB_IOS' do
   pod 'DropDown'
   pod 'SQLite.swift', '~> 0.11.5'
   pod 'MBProgressHUD', '~> 1.1.0'
+  pod "youtube-ios-player-helper", "~> 0.1.4"
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'FirebaseUI/Google'
+  pod 'GoogleSignIn'
 end

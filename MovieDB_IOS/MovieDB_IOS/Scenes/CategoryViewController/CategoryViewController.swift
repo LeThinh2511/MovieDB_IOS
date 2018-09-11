@@ -40,6 +40,12 @@ class CategoryViewController: MoviesBaseViewController {
         return UIStatusBarStyle.lightContent
     }
 
+    @IBAction func didTapSettingButton(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Setting", bundle: nil)
+        let settingViewController = storyboard.instantiateViewController(withIdentifier: "SettingViewController")
+        self.navigationController?.pushViewController(settingViewController, animated: true)
+    }
+
     @IBAction func dismissLeftSideMenu(_ sender: Any) {
         leftSideViewleadingConstraint.priority = UILayoutPriority(rawValue: Constant.activeConstraint)
         UIView.animate(withDuration: Constant.durationAnimationTime) {
