@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Lq5-aX-Wex">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oj8-FQ-NuR">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -153,6 +154,11 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Home" leftItemsSupplementBackButton="YES" id="Jr7-DA-ob0">
+                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="Xom-AI-kjM">
+                            <connections>
+                                <action selector="didTapSettingButton:" destination="kDI-q9-cVW" id="yFL-7A-kPJ"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="organize" id="vWG-ya-24L">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -350,6 +356,46 @@
             </objects>
             <point key="canvasLocation" x="3121" y="974"/>
         </scene>
+        <!--Log In View Controller-->
+        <scene sceneID="j6e-hp-f87">
+            <objects>
+                <viewController id="oj8-FQ-NuR" customClass="LogInViewController" customModule="MovieDB_IOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DcZ-CD-MMr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnE-6E-sQq" customClass="GIDSignInButton">
+                                <rect key="frame" x="37.5" y="369.5" width="300" height="41.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenImage" translatesAutoresizingMaskIntoConstraints="NO" id="Qko-4a-eB1">
+                                <rect key="frame" x="94" y="84" width="187.5" height="187.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Qko-4a-eB1" secondAttribute="height" id="8Kd-k3-n1Y"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.87378663239999999" blue="0.37148454559999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="Qko-4a-eB1" firstAttribute="centerX" secondItem="DcZ-CD-MMr" secondAttribute="centerX" id="B0t-tj-Wrg"/>
+                            <constraint firstItem="cnE-6E-sQq" firstAttribute="centerX" secondItem="DcZ-CD-MMr" secondAttribute="centerX" id="ddI-lW-UgH"/>
+                            <constraint firstItem="cnE-6E-sQq" firstAttribute="width" secondItem="DcZ-CD-MMr" secondAttribute="width" multiplier="4:5" id="r6J-MK-mJL"/>
+                            <constraint firstItem="CW3-PM-X4x" firstAttribute="bottom" secondItem="cnE-6E-sQq" secondAttribute="bottom" constant="256" id="tGH-4Y-09Y"/>
+                            <constraint firstItem="cnE-6E-sQq" firstAttribute="height" secondItem="DcZ-CD-MMr" secondAttribute="height" multiplier="1:16" id="tzF-KE-lRQ"/>
+                            <constraint firstItem="Qko-4a-eB1" firstAttribute="width" secondItem="DcZ-CD-MMr" secondAttribute="width" multiplier="1:2" id="vVN-DQ-hGL"/>
+                            <constraint firstItem="Qko-4a-eB1" firstAttribute="top" secondItem="CW3-PM-X4x" secondAttribute="top" constant="64" id="xlo-mo-Eps"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="CW3-PM-X4x"/>
+                    </view>
+                    <connections>
+                        <outlet property="googleButton" destination="cnE-6E-sQq" id="vMb-rW-g4Y"/>
+                        <segue destination="Lq5-aX-Wex" kind="show" identifier="LogInSuccess" id="pZr-30-SH3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JFI-jq-SjB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="394" y="382"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="97z-jy-UUe">
             <objects>
@@ -450,6 +496,7 @@
     <resources>
         <image name="favoriteTabBar" width="20" height="19"/>
         <image name="homeIcon" width="20" height="18"/>
+        <image name="launchScreenImage" width="2988" height="2954"/>
         <image name="searchIcon" width="18" height="18"/>
     </resources>
 </document>

@@ -25,6 +25,7 @@ struct GeneralName {
     static let trailerLabel = "Trailer"
     static let seeMoreTitle = "see more"
     static let seeLessTitle = "see less"
+    static let logOut = "Log out"
 }
 // MARK: Alert message
 struct Message {
@@ -36,6 +37,7 @@ struct Message {
     static let loadDataFailure = "Can not load data"
     static let errorMessage = "Error"
     static let noTrailerMessage = "This movie has no trailer"
+    static let logInFailure = "Can not log in"
 }
 
 // MARK: movie model
