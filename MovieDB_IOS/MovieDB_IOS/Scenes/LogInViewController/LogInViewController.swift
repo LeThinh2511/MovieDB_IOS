@@ -9,14 +9,18 @@
 import Foundation
 import Firebase
 import GoogleSignIn
+import FirebaseDatabase
 
 class LogInViewController: UIViewController, GIDSignInUIDelegate {
 
     @IBOutlet weak var googleButton: GIDSignInButton!
 
+    private var presenter: LogInViewPresenter!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
+        presenter = LogInViewPresenter(view: self)
     }
 
     private func setUp() {
@@ -36,18 +40,18 @@ extension LogInViewController: GIDSignInDelegate {
             self.showMessage(title: GeneralName.appName, message: error.localizedDescription)
             return
         }
+        self.presenter.createDataReference(user: user)
+    }
+}
 
-        guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
-                                                       accessToken: authentication.accessToken)
-        Auth.auth().signInAndRetrieveData(with: credential) { (_, error) in
-            if let error = error {
-                self.dismissHUD(isAnimated: true)
-                self.showMessage(title: GeneralName.appName, message: error.localizedDescription)
-                return
-            }
-            self.dismissHUD(isAnimated: true)
-            self.performSegue(withIdentifier: "LogInSuccess", sender: nil)
-        }
+extension LogInViewController: LogInView {
+    func createDataReferenceFailure(message: String) {
+        self.dismissHUD(isAnimated: true)
+        self.showMessage(title: GeneralName.appName, message: message)
+    }
+
+    func createDataReferenceSuccess() {
+        self.dismissHUD(isAnimated: true)
+        self.performSegue(withIdentifier: "LogInSuccess", sender: nil)
     }
 }

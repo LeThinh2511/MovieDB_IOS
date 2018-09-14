@@ -18,34 +18,51 @@ class MoviesBaseViewPresenter: MoviesBaseViewPresenterProtocol {
         self.localRepository = localRepository
     }
 
-    func toggleFavoriteMovie(movie: Movie, cell: MovieCollectionViewCell) {
+    func toggleFavoriteMovie(movie: Movie) {
         let isMovieFavorite = localRepository.checkFavoriteMovie(movie: movie)
         if isMovieFavorite {
-            removeMovie(movie: movie, cell: cell)
+            removeMovie(movie: movie)
         } else {
-            insertMovie(movie: movie, cell: cell)
+            insertMovie(movie: movie)
         }
     }
 
-    private func removeMovie(movie: Movie, cell: MovieCollectionViewCell) {
+    private func removeMovie(movie: Movie) {
         let result = localRepository.deleteMovie(movie: movie)
         switch result {
         case .success(let message):
-            self.view.removeFavoriteResult(message: message, cell: cell)
+            self.view.removeFavoriteResult(message: message, movie: movie)
             NotificationCenter.default.post(name: NotificationName.updateFavoriteMovies, object: nil)
+            guard let movieID = movie.movieID else { return }
+            let movieIDString = String(describing: movieID)
+            FirDataReference.ref.child(FirDataReference.favoriteMovies)
+                .child(movieIDString).removeValue { (error, _) in
+                    if let error = error {
+                        self.view.removeFavoriteResult(message: error.localizedDescription, movie: movie)
+                    }
+            }
         case .failure(let error):
-            self.view.removeFavoriteResult(message: error.rawValue, cell: cell)
+            self.view.removeFavoriteResult(message: error.rawValue, movie: movie)
         }
     }
 
-    private func insertMovie(movie: Movie, cell: MovieCollectionViewCell) {
+    private func insertMovie(movie: Movie) {
         let result = localRepository.insertMovie(movie: movie)
         switch result {
         case .success(let message):
-            self.view.insertFavoriteResult(message: message, cell: cell)
+            self.view.insertFavoriteResult(message: message, movie: movie)
             NotificationCenter.default.post(name: NotificationName.updateFavoriteMovies, object: nil)
+            guard let movieID = movie.movieID else { return }
+            let movieIDString = String(describing: movieID)
+            let movieJSON = movie.toJSON()
+            FirDataReference.ref.child(FirDataReference.favoriteMovies)
+                .child(movieIDString).updateChildValues(movieJSON) { (error, _) in
+                    if let error = error {
+                        self.view.insertFavoriteResult(message: error.localizedDescription, movie: movie)
+                    }
+            }
         case .failure(let error):
-            self.view.insertFavoriteResult(message: error.rawValue, cell: cell)
+            self.view.insertFavoriteResult(message: error.rawValue, movie: movie)
         }
     }
 }

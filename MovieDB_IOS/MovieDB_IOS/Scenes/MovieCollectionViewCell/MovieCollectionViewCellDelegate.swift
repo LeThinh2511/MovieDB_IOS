@@ -10,5 +10,5 @@ import Foundation
 
 protocol MovieCollectionViewCellDelegate: class {
     func didTapMovieCollectionViewCell(movie: Movie)
-    func didTapFavoriteButton(movie: Movie, cell: MovieCollectionViewCell)
+    func didTapFavoriteButton(movie: Movie)
 }

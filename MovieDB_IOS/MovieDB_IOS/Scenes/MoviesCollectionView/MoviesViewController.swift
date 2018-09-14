@@ -28,11 +28,5 @@ class MoviesViewController: MoviesBaseViewController {
             view.collectionView.reloadData()
             self.view = view
         }
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeGestureHandler))
-        view.addGestureRecognizer(swipeGesture)
-    }
-
-    @objc private func swipeGestureHandler() {
-        self.dismissWithCustomAnimation()
     }
 }

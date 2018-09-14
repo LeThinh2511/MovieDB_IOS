@@ -17,16 +17,20 @@ class MoviesBaseViewController: UIViewController {
 }
 
 extension MoviesBaseViewController: MoviesBaseView {
-    func insertFavoriteResult(message: String, cell: MovieCollectionViewCell) {
-        if message == Message.addToFavoriteSuccessful {
-            cell.favoriteButton.setImage(#imageLiteral(resourceName: "favorite"), for: .normal)
+    func removeFavoriteResult(message: String, movie: Movie) {
+        if message == Message.deleteFavoriteMovie {
+            let movieIDString = String(describing: movie.movieID)
+            NotificationCenter.default.post(
+                name: NSNotification.Name(rawValue: Constant.updateFavoriteMovie + movieIDString), object: nil)
         }
         self.showMessage(title: GeneralName.appName, message: message)
     }
 
-    func removeFavoriteResult(message: String, cell: MovieCollectionViewCell) {
-        if message == Message.deleteFavoriteMovie {
-            cell.favoriteButton.setImage(#imageLiteral(resourceName: "unfavorite"), for: .normal)
+    func insertFavoriteResult(message: String, movie: Movie) {
+        if message == Message.addToFavoriteSuccessful {
+            let movieIDString = String(describing: movie.movieID)
+            NotificationCenter.default.post(
+                name: NSNotification.Name(rawValue: Constant.updateFavoriteMovie + movieIDString), object: nil)
         }
         self.showMessage(title: GeneralName.appName, message: message)
     }
@@ -39,7 +43,7 @@ extension MoviesBaseViewController: MovieCollectionViewCellDelegate {
         self.navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
 
-    func didTapFavoriteButton(movie: Movie, cell: MovieCollectionViewCell) {
-        self.presenter.toggleFavoriteMovie(movie: movie, cell: cell)
+    func didTapFavoriteButton(movie: Movie) {
+        self.presenter.toggleFavoriteMovie(movie: movie)
     }
 }

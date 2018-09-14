@@ -8,6 +8,8 @@
 
 import UIKit
 import Cosmos
+import RxSwift
+import RxCocoa
 
 class MovieCollectionViewCell: UICollectionViewCell {
 
@@ -20,9 +22,10 @@ class MovieCollectionViewCell: UICollectionViewCell {
     weak var delegate: MovieCollectionViewCellDelegate?
     var movie: Movie!
     private let localRepository = LocalRepository.shared
+    private let disposeBag = DisposeBag()
 
     @IBAction func toggleFavorite(_ sender: Any) {
-        delegate?.didTapFavoriteButton(movie: movie, cell: self)
+        delegate?.didTapFavoriteButton(movie: movie)
     }
 
     func configMovieCollectionViewCell(movie: Movie, contentView: UIView) {
@@ -46,9 +49,23 @@ class MovieCollectionViewCell: UICollectionViewCell {
         }
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImageView(tapGestureRecognizer:)))
         imageView.addGestureRecognizer(tapGesture)
+
+        NotificationCenter.default
+            .rx.notification(NSNotification.Name(rawValue: Constant.updateFavoriteMovie
+                + "\(movie.movieID)"))
+            .subscribe(onNext: { _ in
+                self.updateFavoriteMovie()
+            })
+        .disposed(by: disposeBag)
     }
 
     @objc func didTapImageView(tapGestureRecognizer: UITapGestureRecognizer) {
         self.delegate?.didTapMovieCollectionViewCell(movie: movie)
+    }
+
+    private func updateFavoriteMovie() {
+        let isFavorite = self.localRepository.checkFavoriteMovie(movie: self.movie)
+        let image = isFavorite ? #imageLiteral(resourceName: "favorite") : #imageLiteral(resourceName: "unfavorite")
+        self.favoriteButton.setImage(image, for: .normal)
     }
 }

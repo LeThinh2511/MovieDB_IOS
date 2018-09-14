@@ -17,6 +17,7 @@ target 'MovieDB_IOS' do
   pod 'ObjectMapper', '~> 3.3'
   pod 'SwiftLint'
   pod 'RxSwift',    '~> 4.0'
+  pod 'RxCocoa',    '~> 4.0'
   pod 'Cosmos', '~> 16.0'
   pod 'DropDown'
   pod 'SQLite.swift', '~> 0.11.5'
@@ -26,4 +27,5 @@ target 'MovieDB_IOS' do
   pod 'Firebase/Auth'
   pod 'FirebaseUI/Google'
   pod 'GoogleSignIn'
+  pod 'Firebase/Database'
 end

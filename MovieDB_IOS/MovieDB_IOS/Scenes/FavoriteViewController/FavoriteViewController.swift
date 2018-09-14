@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class FavoriteViewController: MoviesBaseViewController {
 
@@ -14,20 +15,22 @@ class FavoriteViewController: MoviesBaseViewController {
 
     private var presenter: FavoriteViewPresenter!
     private var collectionView: MoviesCollectionView!
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         addCollectionView()
         presenter = FavoriteViewPresenter(view: self, localRepository: LocalRepository.shared)
         presenter.loadFavoriteMovies()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateFavoriteMovies),
-                                               name: NotificationName.updateFavoriteMovies,
-                                               object: nil)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: NotificationName.updateFavoriteMovies, object: nil)
+        NotificationCenter.default
+        .rx.notification(NotificationName.updateFavoriteMovies)
+            .subscribe(onNext: {_ in
+                self.updateFavoriteMovies()
+            }, onError: { (error) in
+                self.showMessage(title: GeneralName.appName, message: error.localizedDescription)
+            })
+        .disposed(by: disposeBag)
+        self.presenter.addRemoteObserver()
     }
 
     @objc func updateFavoriteMovies() {
@@ -54,5 +57,9 @@ extension FavoriteViewController: FavoriteView {
 
     func loadFavoriteMovieFailure(error: SQLiteError) {
         self.showMessage(title: GeneralName.appName, message: error.rawValue)
+    }
+
+    func addObserverFailure(message: String) {
+        self.showMessage(title: GeneralName.appName, message: message)
     }
 }

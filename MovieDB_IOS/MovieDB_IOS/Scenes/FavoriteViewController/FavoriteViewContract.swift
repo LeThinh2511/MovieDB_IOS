@@ -11,8 +11,12 @@ import Foundation
 protocol FavoriteView: class {
     func loadFavoriteMovieSuccess(movies: [Movie]?)
     func loadFavoriteMovieFailure(error: SQLiteError)
+    func addObserverFailure(message: String)
 }
 
 protocol FavoriteViewPresenterProtocol: class {
     func loadFavoriteMovies()
+    func insertMovie(movie: Movie)
+    func removeMovie(movie: Movie)
+    func addRemoteObserver()
 }

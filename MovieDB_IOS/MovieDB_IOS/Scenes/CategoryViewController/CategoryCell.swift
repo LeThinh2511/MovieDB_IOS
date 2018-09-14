@@ -18,7 +18,7 @@ class CategoryCell: UITableViewCell {
     @IBOutlet weak var moviesCollectionView: UICollectionView!
 
     var movies = [Movie]()
-    weak var movieCollectionViewCellDelegate: MovieCollectionViewCellDelegate!
+    weak var movieCollectionViewCellDelegate: MovieCollectionViewCellDelegate?
     weak var delegate: SeeAllButtonDelegate?
 
     override func awakeFromNib() {

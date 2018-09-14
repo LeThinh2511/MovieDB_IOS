@@ -150,7 +150,14 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return Constant.collectionItemSpacing
+        switch collectionView {
+        case self.castCollectionView:
+            return Constant.collectionItemSpacing
+        case self.genresCollectionView:
+            return Constant.genreButtonSpacing
+        default:
+            return 0
+        }
     }
 }
 

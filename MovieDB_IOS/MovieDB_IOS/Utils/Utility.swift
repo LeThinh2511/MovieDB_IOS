@@ -7,6 +7,20 @@
 //
 
 import UIKit
+import FirebaseDatabase
+
+struct FirDataReference {
+    static var ref: DatabaseReference! = nil {
+        didSet {
+            self.favoriteMovieRef = ref.child(favoriteMovies)
+        }
+    }
+    static var favoriteMovieRef: DatabaseReference! = nil
+    static let usersPath = "users"
+    static let userName = "name"
+    static let userEmail = "email"
+    static let favoriteMovies = "favoriteMovies"
+}
 
 // MARK: general name
 struct GeneralName {
@@ -38,6 +52,7 @@ struct Message {
     static let errorMessage = "Error"
     static let noTrailerMessage = "This movie has no trailer"
     static let logInFailure = "Can not log in"
+    static let ReferenceCreationFailure = "Can not connect to server"
 }
 
 // MARK: movie model
@@ -91,8 +106,10 @@ struct Constant {
     static var cellSize = CGSize(width: 0, height: 0)
     static let estimatedRowHeight: CGFloat = 197
     static let defaultPage = 1
+    static let genreButtonSpacing: CGFloat = 5
     static var genreButtonSize = CGSize(width: 0, height: 30)
     static let numLineLabel = 2
+    static let updateFavoriteMovie = "UpdateMovieWithID"
 }
 
 struct API {

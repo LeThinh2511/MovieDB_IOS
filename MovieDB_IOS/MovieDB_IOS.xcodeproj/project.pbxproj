@@ -50,12 +50,15 @@
 		3269DFB621412EB50055694C /* MoviesBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3269DFB521412EB50055694C /* MoviesBaseViewController.swift */; };
 		3269DFB8214131DD0055694C /* MoviesBaseViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3269DFB7214131DD0055694C /* MoviesBaseViewPresenter.swift */; };
 		3269DFBA214131F30055694C /* MoviesBaseViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3269DFB9214131F30055694C /* MoviesBaseViewContract.swift */; };
+		32759138214BAC03008FB61B /* FirebaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32759137214BAC03008FB61B /* FirebaseRepository.swift */; };
 		3276AD92211E808000D3D843 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276AD91211E808000D3D843 /* AppDelegate.swift */; };
 		3276AD99211E808200D3D843 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3276AD98211E808200D3D843 /* Assets.xcassets */; };
 		3276ADB0211EBBEB00D3D843 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276ADAF211EBBEB00D3D843 /* Person.swift */; };
 		3276ADB2211ECA3400D3D843 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3276ADB1211ECA3400D3D843 /* Movie.swift */; };
 		328901062122E5C80074525F /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328901052122E5C80074525F /* Service.swift */; };
 		328901082122E6EC0074525F /* RequestMovieDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328901072122E6EC0074525F /* RequestMovieDB.swift */; };
+		328E6B742148F8A20071675D /* LogInViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E6B732148F8A20071675D /* LogInViewPresenter.swift */; };
+		328E6B762148F8B90071675D /* LogInViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E6B752148F8B90071675D /* LogInViewContract.swift */; };
 		328F0BD0212263E500BFFC21 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328F0BCF212263E500BFFC21 /* BaseResponse.swift */; };
 		328F0BD2212264B300BFFC21 /* SearchPersonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328F0BD1212264B300BFFC21 /* SearchPersonResponse.swift */; };
 		328F0BD42122791C00BFFC21 /* MoviesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328F0BD32122791C00BFFC21 /* MoviesResponse.swift */; };
@@ -120,6 +123,7 @@
 		3269DFB521412EB50055694C /* MoviesBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesBaseViewController.swift; sourceTree = "<group>"; };
 		3269DFB7214131DD0055694C /* MoviesBaseViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesBaseViewPresenter.swift; sourceTree = "<group>"; };
 		3269DFB9214131F30055694C /* MoviesBaseViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesBaseViewContract.swift; sourceTree = "<group>"; };
+		32759137214BAC03008FB61B /* FirebaseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRepository.swift; sourceTree = "<group>"; };
 		3276AD8E211E808000D3D843 /* MovieDB_IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDB_IOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3276AD91211E808000D3D843 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3276AD98211E808200D3D843 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 		3276ADB1211ECA3400D3D843 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		328901052122E5C80074525F /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		328901072122E6EC0074525F /* RequestMovieDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestMovieDB.swift; sourceTree = "<group>"; };
+		328E6B732148F8A20071675D /* LogInViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewPresenter.swift; sourceTree = "<group>"; };
+		328E6B752148F8B90071675D /* LogInViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewContract.swift; sourceTree = "<group>"; };
 		328F0BCF212263E500BFFC21 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		328F0BD1212264B300BFFC21 /* SearchPersonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPersonResponse.swift; sourceTree = "<group>"; };
 		328F0BD32122791C00BFFC21 /* MoviesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesResponse.swift; sourceTree = "<group>"; };
@@ -308,13 +314,14 @@
 			path = TrailerViewController;
 			sourceTree = "<group>";
 		};
-		3269DFB421412E970055694C /* BaseViewController */ = {
+		3269DFB421412E970055694C /* MoviesBaseViewController */ = {
 			isa = PBXGroup;
 			children = (
 				3269DFB521412EB50055694C /* MoviesBaseViewController.swift */,
 				3269DFB9214131F30055694C /* MoviesBaseViewContract.swift */,
 				3269DFB7214131DD0055694C /* MoviesBaseViewPresenter.swift */,
 			);
+			name = MoviesBaseViewController;
 			path = BaseViewController;
 			sourceTree = "<group>";
 		};
@@ -383,7 +390,7 @@
 				329A420B2146754A0074EE9A /* SettingViewController */,
 				329A4205214650DE0074EE9A /* LogInViewController */,
 				07DD9687212DB26200206642 /* Storyboard */,
-				3269DFB421412E970055694C /* BaseViewController */,
+				3269DFB421412E970055694C /* MoviesBaseViewController */,
 				07DD966D212DB1AB00206642 /* CategoryViewController */,
 				0752537F2133F76C00438398 /* FavoriteViewController */,
 				07E998A821315F98009408B8 /* SearchViewController */,
@@ -481,6 +488,8 @@
 			isa = PBXGroup;
 			children = (
 				329A4206214651120074EE9A /* LogInViewController.swift */,
+				328E6B752148F8B90071675D /* LogInViewContract.swift */,
+				328E6B732148F8A20071675D /* LogInViewPresenter.swift */,
 			);
 			path = LogInViewController;
 			sourceTree = "<group>";
@@ -499,6 +508,7 @@
 			children = (
 				32A8B8F42124189F007A8431 /* RemoteRepository.swift */,
 				0752538B2133FF5500438398 /* LocalRepository.swift */,
+				32759137214BAC03008FB61B /* FirebaseRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -662,8 +672,10 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/youtube-ios-player-helper/youtube_ios_player_helper.framework",
 			);
@@ -677,8 +689,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/youtube_ios_player_helper.framework",
 			);
@@ -730,8 +744,10 @@
 				07DD9690212DB2BC00206642 /* UIImageViewExtension.swift in Sources */,
 				0787F5C3212E87D900C1926E /* PersonDetailViewController.swift in Sources */,
 				32F03984213917EA00B0AC32 /* UIViewControllerExtension.swift in Sources */,
+				32759138214BAC03008FB61B /* FirebaseRepository.swift in Sources */,
 				07543B40212EBC5300017FE6 /* PersonDetailPresenter.swift in Sources */,
 				0765A78E212FC087002B739C /* CategoryContract.swift in Sources */,
+				328E6B762148F8B90071675D /* LogInViewContract.swift in Sources */,
 				32A8B8F52124189F007A8431 /* RemoteRepository.swift in Sources */,
 				0752538C2133FF5500438398 /* LocalRepository.swift in Sources */,
 				328F0BD42122791C00BFFC21 /* MoviesResponse.swift in Sources */,
@@ -753,6 +769,7 @@
 				0787F5D4212E9FF000C1926E /* Utility.swift in Sources */,
 				3276AD92211E808000D3D843 /* AppDelegate.swift in Sources */,
 				32B7B39E213AACCB009C255E /* GenreCell.swift in Sources */,
+				328E6B742148F8A20071675D /* LogInViewPresenter.swift in Sources */,
 				07DD968F212DB2BC00206642 /* UIViewExtension.swift in Sources */,
 				3269DFA7214103990055694C /* ExpandableLabelCell.swift in Sources */,
 				0752537E2133D88E00438398 /* SearchViewPresenter.swift in Sources */,

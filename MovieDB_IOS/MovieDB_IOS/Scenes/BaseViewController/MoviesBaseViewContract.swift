@@ -9,10 +9,10 @@
 import Foundation
 
 protocol MoviesBaseView: class {
-    func removeFavoriteResult(message: String, cell: MovieCollectionViewCell)
-    func insertFavoriteResult(message: String, cell: MovieCollectionViewCell)
+    func removeFavoriteResult(message: String, movie: Movie)
+    func insertFavoriteResult(message: String, movie: Movie)
 }
 
 protocol MoviesBaseViewPresenterProtocol: class {
-    func toggleFavoriteMovie(movie: Movie, cell: MovieCollectionViewCell)
+    func toggleFavoriteMovie(movie: Movie)
 }
